@@ -44,6 +44,7 @@ OC.L10N.register(
     "More options" : "Бусад сонголтууд",
     "Authentication" : "Нэвтрэлт",
     "Timestamp of data load" : "Өгөгдөл ачаалсан цагийн тэмдэг",
+    "Issues" : "Асуудлууд",
     "Limit" : "Хязгаар",
     "Count" : "Тоо",
     "Local" : "Локал",
