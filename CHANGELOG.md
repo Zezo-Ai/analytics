@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0 - 2026-02-xx
+### Added
+- Data sources can offer report templates within the wizard
+
 ## 6.1.0 - 2026-02-18
 ### Added
 - Caching also for data sources. (Can be implemented by data source owner)
@@ -19,6 +23,7 @@
 
 ### Changed
 - Prepare chart option handling for future enhancements
+- Add a datasource-grouped template selector to wizard step 1 and sync it with step 2 selections
 
 ## 6.0.2 - 2025-12-30
 ### Fixed

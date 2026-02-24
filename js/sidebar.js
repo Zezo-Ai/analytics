@@ -349,6 +349,323 @@ OCA.Analytics.Sidebar.Report = {
         document.getElementById('wizardNewTypeOptionsRow').style.display = 'table-row';
         document.getElementById('wizardNewDatasourceSection').innerHTML = '';
         document.getElementById('wizardNewDatasourceSection').appendChild(OCA.Analytics.Datasource.buildDatasourceRelatedForm(type));
+        OCA.Analytics.Sidebar.Report.buildTemplateDropdownWizard(type);
+        OCA.Analytics.Sidebar.Report.updateWizardVisualTemplateState(OCA.Analytics.Sidebar.Report.getSelectedTemplateWizard());
+        OCA.Analytics.Sidebar.Report.syncGlobalTemplateSelection();
+    },
+
+    buildTemplateDropdownWizard: function (datasourceType) {
+        const templateRow = document.getElementById('wizardNewTypeTemplateRow');
+        const templateSelect = document.getElementById('wizardNewDatasourceTemplate');
+        templateSelect.innerHTML = '';
+
+        let option = document.createElement('option');
+        option.value = '';
+        option.innerText = t('analytics', 'No template');
+        templateSelect.appendChild(option);
+
+        if (isNaN(datasourceType)) {
+            templateRow.style.display = 'none';
+            return;
+        }
+
+        const templatesByDatasource = OCA.Analytics?.datasources?.reportTemplates || {};
+        const templates = templatesByDatasource[datasourceType] || {};
+        const sortableTemplates = Object.entries(templates).sort((a, b) => {
+            const aName = (a[1]?.name || a[0]).toLowerCase();
+            const bName = (b[1]?.name || b[0]).toLowerCase();
+            return aName.localeCompare(bName);
+        });
+
+        if (sortableTemplates.length === 0) {
+            templateRow.style.display = 'none';
+            return;
+        }
+
+        sortableTemplates.forEach(([templateId, templateDefinition]) => {
+            let templateOption = document.createElement('option');
+            templateOption.value = templateId;
+            templateOption.innerText = templateDefinition.name || templateId;
+            templateSelect.appendChild(templateOption);
+        });
+
+        templateRow.style.display = 'table-row';
+    },
+
+    buildGlobalTemplateDropdownWizard: function () {
+        const globalTemplateSelect = document.getElementById('wizardNewGlobalTemplate');
+        globalTemplateSelect.innerHTML = '';
+
+        let emptyOption = document.createElement('option');
+        emptyOption.value = '';
+        emptyOption.innerText = t('analytics', 'No template');
+        globalTemplateSelect.appendChild(emptyOption);
+
+        const datasources = OCA.Analytics?.datasources?.datasources || {};
+        const templatesByDatasource = OCA.Analytics?.datasources?.reportTemplates || {};
+        const sortedDatasources = Object.entries(datasources).sort((a, b) => a[1].localeCompare(b[1]));
+
+        sortedDatasources.forEach(([datasourceType, datasourceName]) => {
+            const templates = templatesByDatasource[datasourceType] || {};
+            const sortableTemplates = Object.entries(templates).sort((a, b) => {
+                const aName = (a[1]?.name || a[0]).toLowerCase();
+                const bName = (b[1]?.name || b[0]).toLowerCase();
+                return aName.localeCompare(bName);
+            });
+            if (sortableTemplates.length === 0) {
+                return;
+            }
+
+            let group = document.createElement('optgroup');
+            group.label = datasourceName;
+
+            sortableTemplates.forEach(([templateId, templateDefinition]) => {
+                let option = document.createElement('option');
+                option.value = datasourceType + '::' + templateId;
+                option.innerText = templateDefinition.name || templateId;
+                group.appendChild(option);
+            });
+
+            globalTemplateSelect.appendChild(group);
+        });
+    },
+
+    getSelectedTemplateWizard: function () {
+        const datasourceType = parseInt(document.getElementById('wizardNewDatasource').value);
+        const templateId = document.getElementById('wizardNewDatasourceTemplate').value;
+        if (isNaN(datasourceType) || templateId === '') {
+            return null;
+        }
+        const templatesByDatasource = OCA.Analytics?.datasources?.reportTemplates || {};
+        const templates = templatesByDatasource[datasourceType] || {};
+        return templates[templateId] || null;
+    },
+
+    setWizardTypeMode: function (mode) {
+        const realtimeButton = document.getElementById('wizardNewTypeRealtime');
+        const storedButton = document.getElementById('wizardNewTypeStored');
+        const datasourceRow = document.getElementById('wizardNewTypeDatasourceRow');
+        const optionsRow = document.getElementById('wizardNewTypeOptionsRow');
+        const templateRow = document.getElementById('wizardNewTypeTemplateRow');
+        const storedRow = document.getElementById('wizardNewTypeStoredRow');
+        const datasetRow = document.getElementById('wizardNewTypeDatasetRow');
+        const dimensionRow = document.getElementById('wizardNewTypeDimensionRow');
+
+        if (mode === 'stored') {
+            datasourceRow.style.display = 'none';
+            optionsRow.style.display = 'none';
+            templateRow.style.display = 'none';
+            storedRow.style.display = 'table-row';
+            datasetRow.style.display = 'none';
+            dimensionRow.style.display = 'none';
+            storedButton.classList.add('analyticsPrimary');
+            realtimeButton.classList.remove('analyticsPrimary');
+            OCA.Analytics.Sidebar.Report.updateWizardVisualTemplateState(null);
+            return;
+        }
+
+        const datasourceType = parseInt(document.getElementById('wizardNewDatasource').value);
+        datasourceRow.style.display = 'table-row';
+        storedRow.style.display = 'none';
+        datasetRow.style.display = 'none';
+        dimensionRow.style.display = 'none';
+        optionsRow.style.display = isNaN(datasourceType) ? 'none' : 'table-row';
+        realtimeButton.classList.add('analyticsPrimary');
+        storedButton.classList.remove('analyticsPrimary');
+        OCA.Analytics.Sidebar.Report.buildTemplateDropdownWizard(datasourceType);
+        OCA.Analytics.Sidebar.Report.updateWizardVisualTemplateState(OCA.Analytics.Sidebar.Report.getSelectedTemplateWizard());
+    },
+
+    handleTemplateChangeWizard: function () {
+        const template = OCA.Analytics.Sidebar.Report.getSelectedTemplateWizard();
+        OCA.Analytics.Sidebar.Report.applyTemplateToDatasourceSettingsWizard(template);
+        OCA.Analytics.Sidebar.Report.applyTemplateMetadataToGeneralWizard(template);
+        OCA.Analytics.Sidebar.Report.updateWizardVisualTemplateState(template);
+        OCA.Analytics.Sidebar.Report.syncGlobalTemplateSelection();
+    },
+
+    handleGlobalTemplateChangeWizard: function () {
+        const globalValue = document.getElementById('wizardNewGlobalTemplate').value;
+        if (globalValue === '') {
+            document.getElementById('wizardNewDatasourceTemplate').value = '';
+            OCA.Analytics.Sidebar.Report.handleTemplateChangeWizard();
+            return;
+        }
+
+        const separatorIndex = globalValue.indexOf('::');
+        if (separatorIndex === -1) {
+            return;
+        }
+        const datasourceType = globalValue.substring(0, separatorIndex);
+        const templateId = globalValue.substring(separatorIndex + 2);
+
+        OCA.Analytics.Sidebar.Report.setWizardTypeMode('realtime');
+        document.getElementById('wizardNewDatasource').value = datasourceType;
+        OCA.Analytics.Sidebar.Report.handleDatasourceChangeWizard();
+        document.getElementById('wizardNewDatasourceTemplate').value = templateId;
+        OCA.Analytics.Sidebar.Report.handleTemplateChangeWizard();
+
+        if (OCA.Analytics?.Wizard?.currentSlide === 1) {
+            OCA.Analytics.Wizard.next();
+        }
+    },
+
+    syncGlobalTemplateSelection: function () {
+        const globalSelect = document.getElementById('wizardNewGlobalTemplate');
+        if (!globalSelect) {
+            return;
+        }
+        const datasourceType = document.getElementById('wizardNewDatasource').value;
+        const templateId = document.getElementById('wizardNewDatasourceTemplate').value;
+        if (templateId === '') {
+            globalSelect.value = '';
+            return;
+        }
+
+        const combinedValue = datasourceType + '::' + templateId;
+        if (globalSelect.querySelector('option[value="' + combinedValue + '"]')) {
+            globalSelect.value = combinedValue;
+        }
+    },
+
+    applyTemplateToDatasourceSettingsWizard: function (templateDefinition) {
+        if (!templateDefinition || !templateDefinition.report || !templateDefinition.report.link) {
+            return;
+        }
+
+        let linkOptions = templateDefinition.report.link;
+        if (typeof linkOptions === 'string') {
+            try {
+                linkOptions = JSON.parse(linkOptions);
+            } catch (error) {
+                return;
+            }
+        }
+
+        if (typeof linkOptions !== 'object' || linkOptions === null) {
+            return;
+        }
+
+        for (const [key, value] of Object.entries(linkOptions)) {
+            const input = document.querySelector('#wizardNewDatasourceSection #' + key);
+            if (!input) {
+                continue;
+            }
+
+            if (input.type === 'checkbox') {
+                input.checked = value === true || value === 'true' || value === 1 || value === '1';
+            } else {
+                input.value = value ?? '';
+            }
+        }
+    },
+
+    applyTemplateMetadataToGeneralWizard: function (templateDefinition) {
+        if (!templateDefinition || !templateDefinition.report) {
+            return;
+        }
+
+        const report = templateDefinition.report;
+        if (typeof report.name === 'string' && report.name !== '') {
+            document.getElementById('wizardNewName').value = report.name;
+        }
+        if (typeof report.subheader === 'string') {
+            document.getElementById('wizardNewSubheader').value = report.subheader;
+        }
+    },
+
+    updateWizardVisualTemplateState: function (templateDefinition) {
+        const visualHint = document.getElementById('wizardNewVisualTemplateHint');
+        const chartInputs = document.querySelectorAll('input[name="chart"], input[name="table"]');
+        const hasTemplate = !!(templateDefinition && templateDefinition.report);
+
+        if (!hasTemplate) {
+            chartInputs.forEach((input) => {
+                input.disabled = false;
+            });
+            if (visualHint) {
+                visualHint.style.display = 'none';
+            }
+            return;
+        }
+
+        OCA.Analytics.Sidebar.Report.applyTemplateVisualizationWizard(templateDefinition.report);
+
+        chartInputs.forEach((input) => {
+            input.disabled = true;
+        });
+        if (visualHint) {
+            visualHint.style.display = 'block';
+        }
+    },
+
+    applyTemplateVisualizationWizard: function (templateReport) {
+        const chartNone = document.getElementById('chartNone');
+        const tableNone = document.getElementById('chartTableNone');
+        const table = document.getElementById('chartTable');
+        const chartBar = document.getElementById('chartBar');
+        const visualization = templateReport.visualization || 'table';
+        const chartValue = templateReport.chart || '';
+
+        if (tableNone) {
+            tableNone.checked = true;
+        }
+        if (table) {
+            table.checked = false;
+        }
+        if (chartNone) {
+            chartNone.checked = true;
+        }
+
+        const chartInput = chartValue !== '' ? document.querySelector('input[name="chart"][value="' + chartValue + '"]') : null;
+
+        if (visualization === 'ct') {
+            if (tableNone) {
+                tableNone.checked = false;
+            }
+            if (table) {
+                table.checked = true;
+            }
+            if (chartInput) {
+                chartInput.checked = true;
+            } else if (chartBar) {
+                chartBar.checked = true;
+            }
+        } else if (visualization === 'chart') {
+            if (chartInput) {
+                chartInput.checked = true;
+            } else if (chartBar) {
+                chartBar.checked = true;
+            }
+        } else {
+            if (tableNone) {
+                tableNone.checked = false;
+            }
+            if (table) {
+                table.checked = true;
+            }
+            if (chartNone) {
+                chartNone.checked = true;
+            }
+        }
+    },
+
+    applyTemplateOptionsToReport: function (reportId, templateDefinition) {
+        if (!templateDefinition || !templateDefinition.options) {
+            return Promise.resolve(reportId);
+        }
+
+        const options = templateDefinition.options;
+        return fetch(OC.generateUrl('apps/analytics/report/') + reportId + '/options', {
+            method: 'POST',
+            headers: OCA.Analytics.headers(),
+            body: JSON.stringify({
+                chartoptions: options.chartoptions ?? '',
+                dataoptions: options.dataoptions ?? '',
+                filteroptions: options.filteroptions ?? '',
+                tableoptions: options.tableoptions ?? ''
+            })
+        }).then(() => reportId);
     },
 
     // todo: remove
@@ -518,6 +835,7 @@ OCA.Analytics.Sidebar.Report = {
         let value = document.getElementById('wizardNewValue').value;
         let visualization = 'table';
         let chart = document.querySelector('input[name="chart"]:checked').value;
+        let selectedTemplate = null;
 
         let option = {};
         let inputFields = document.querySelectorAll('#wizardNewDatasourceSection input, #wizardNewDatasourceSection select');
@@ -526,8 +844,11 @@ OCA.Analytics.Sidebar.Report = {
         }
         let link = JSON.stringify(option);
 
-        if (document.getElementById('wizardNewTypeStored').classList.contains('analyticsPrimary')) {
+        const isStoredType = document.getElementById('wizardNewTypeStored').classList.contains('analyticsPrimary');
+        if (isStoredType) {
             type = OCA.Analytics.TYPE_INTERNAL_DB;
+        } else {
+            selectedTemplate = OCA.Analytics.Sidebar.Report.getSelectedTemplateWizard();
         }
         if (document.getElementById('wizardNewTypeStoredNew').classList.contains('analyticsPrimary')) {
             dataset = 0;
@@ -554,25 +875,45 @@ OCA.Analytics.Sidebar.Report = {
             return;
         }
 
+        let payload = {
+            name: name,
+            subheader: subheader,
+            parent: grouping,
+            type: type,
+            dataset: dataset,
+            link: link,
+            visualization: visualization,
+            chart: chart,
+            dimension1: dimension1,
+            dimension2: dimension2,
+            value: value
+        };
+
+        if (selectedTemplate && selectedTemplate.report) {
+            const templateReport = selectedTemplate.report;
+            payload = {
+                ...payload,
+                name: name !== '' ? name : (templateReport.name || name),
+                subheader: subheader !== '' ? subheader : (templateReport.subheader || subheader),
+                link: link,
+                visualization: templateReport.visualization || visualization,
+                chart: templateReport.chart || chart,
+                dimension1: templateReport.dimension1 || dimension1,
+                dimension2: templateReport.dimension2 || dimension2,
+                value: templateReport.value || value
+            };
+        }
+
         let requestUrl = OC.generateUrl('apps/analytics/report');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.Analytics.headers(),
-            body: JSON.stringify({
-                name: name,
-                subheader: subheader,
-                parent: grouping,
-                type: type,
-                dataset: dataset,
-                link: link,
-                visualization: visualization,
-                chart: chart,
-                dimension1: dimension1,
-                dimension2: dimension2,
-                value: value
-            })
+            body: JSON.stringify(payload)
         })
             .then(response => response.json())
+            .then(id => {
+                return OCA.Analytics.Sidebar.Report.applyTemplateOptionsToReport(id, selectedTemplate);
+            })
             .then(id => {
                 return fetch(OC.generateUrl('apps/analytics/report/') + id, {
                     method: 'GET',
@@ -775,19 +1116,10 @@ OCA.Analytics.Sidebar.Report = {
         document.getElementById('wizardNewCancel').addEventListener('click', OCA.Analytics.Wizard.cancel);
 
         document.getElementById('wizardNewTypeRealtime').addEventListener('click', function () {
-            document.getElementById('wizardNewTypeDatasourceRow').style.display = 'table-row';
-            document.getElementById('wizardNewTypeDatasetRow').style.display = 'none';
-            document.getElementById('wizardNewTypeStoredRow').style.display = 'none';
-            document.getElementById('wizardNewTypeRealtime').classList.add('analyticsPrimary');
-            document.getElementById('wizardNewTypeStored').classList.remove('analyticsPrimary');
+            OCA.Analytics.Sidebar.Report.setWizardTypeMode('realtime');
         });
         document.getElementById('wizardNewTypeStored').addEventListener('click', function () {
-            document.getElementById('wizardNewTypeDatasourceRow').style.display = 'none';
-            document.getElementById('wizardNewTypeOptionsRow').style.display = 'none';
-            document.getElementById('wizardNewTypeStoredRow').style.display = 'table-row';
-            document.getElementById('wizardNewTypeDatasetRow').style.display = 'none';
-            document.getElementById('wizardNewTypeStored').classList.add('analyticsPrimary');
-            document.getElementById('wizardNewTypeRealtime').classList.remove('analyticsPrimary');
+            OCA.Analytics.Sidebar.Report.setWizardTypeMode('stored');
         })
 
         document.getElementById('wizardNewTypeStoredNew').addEventListener('click', function () {
@@ -804,11 +1136,16 @@ OCA.Analytics.Sidebar.Report = {
             document.getElementById('wizardNewTypeStoredOld').classList.add('analyticsPrimary');
         })
 
-        OCA.Analytics.Datasource.buildDropdown('wizardNewDatasource');
+        OCA.Analytics.Datasource.buildDropdown('wizardNewDatasource').then(() => {
+            OCA.Analytics.Sidebar.Report.buildGlobalTemplateDropdownWizard();
+        });
         document.getElementById('wizardNewDatasource').addEventListener('change', OCA.Analytics.Sidebar.Report.handleDatasourceChangeWizard);
+        document.getElementById('wizardNewDatasourceTemplate').addEventListener('change', OCA.Analytics.Sidebar.Report.handleTemplateChangeWizard);
+        document.getElementById('wizardNewGlobalTemplate').addEventListener('change', OCA.Analytics.Sidebar.Report.handleGlobalTemplateChangeWizard);
 
         OCA.Analytics.Sidebar.Report.buildGroupingDropdown('wizardNewGrouping');
         OCA.Analytics.Sidebar.Report.buildDatasetDropdown('wizardNewDataset', true);
+        OCA.Analytics.Sidebar.Report.setWizardTypeMode('realtime');
     },
 
 };

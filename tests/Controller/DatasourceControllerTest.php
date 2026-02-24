@@ -6,6 +6,31 @@ use OCA\Analytics\Tests\Stubs\FakeL10N;
 use PHPUnit\Framework\TestCase;
 
 class DatasourceControllerTest extends TestCase {
+    public function testIndexFilteredIncludesReportTemplatesForDatasourceProviders(): void {
+        $github = $this->createMock(\OCA\Analytics\Datasource\Github::class);
+        $github->expects($this->once())
+            ->method('getName')
+            ->willReturn('GitHub');
+        $github->expects($this->once())
+            ->method('getTemplate')
+            ->willReturn([]);
+        $github->expects($this->once())
+            ->method('getReportTemplates')
+            ->willReturn([
+                'github_demo_downloads' => [
+                    'name' => 'Demo: Analytics Downloads',
+                    'report' => ['name' => 'Demo: Analytics Downloads'],
+                ],
+            ]);
+
+        $controller = $this->createController(null, $github);
+        $result = $controller->indexFiltered(DatasourceController::DATASET_TYPE_GIT);
+
+        $this->assertArrayHasKey('reportTemplates', $result);
+        $this->assertArrayHasKey(DatasourceController::DATASET_TYPE_GIT, $result['reportTemplates']);
+        $this->assertArrayHasKey('github_demo_downloads', $result['reportTemplates'][DatasourceController::DATASET_TYPE_GIT]);
+    }
+
     public function testAggregateDataRemovesColumnsUsingNumericSorting() {
         $controller = $this->createController();
 
@@ -97,7 +122,10 @@ class DatasourceControllerTest extends TestCase {
         $this->assertTrue($result['cache']['notModified']);
     }
 
-    private function createController(?\OCA\Analytics\Datasource\LocalCsv $localCsv = null): DatasourceController {
+    private function createController(
+        ?\OCA\Analytics\Datasource\LocalCsv $localCsv = null,
+        ?\OCA\Analytics\Datasource\Github $github = null
+    ): DatasourceController {
         $appConfig = $this->createMock(\OCP\IAppConfig::class);
         $appConfig->method('getValueString')->willReturn('');
 
@@ -105,7 +133,7 @@ class DatasourceControllerTest extends TestCase {
             'analytics',
             $this->createMock(\OCP\IRequest::class),
             $this->createMock(\Psr\Log\LoggerInterface::class),
-            $this->createMock(\OCA\Analytics\Datasource\Github::class),
+            $github ?? $this->createMock(\OCA\Analytics\Datasource\Github::class),
             $localCsv ?? $this->createMock(\OCA\Analytics\Datasource\LocalCsv::class),
             $this->createMock(\OCA\Analytics\Datasource\Regex::class),
             $this->createMock(\OCA\Analytics\Datasource\ExternalJson::class),

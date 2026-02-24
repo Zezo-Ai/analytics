@@ -12,6 +12,7 @@ use OCA\Analytics\Datasource\DatasourceEvent;
 use OCA\Analytics\Datasource\ExternalCsv;
 use OCA\Analytics\Datasource\ExternalJson;
 use OCA\Analytics\Datasource\Github;
+use OCA\Analytics\Datasource\IReportTemplateProvider;
 use OCA\Analytics\Datasource\LocalCsv;
 use OCA\Analytics\Datasource\LocalSpreadsheet;
 use OCA\Analytics\Datasource\LocalJson;
@@ -92,14 +93,21 @@ class DatasourceController extends Controller {
 
 		$datasources = [];
 		$options = [];
+		$reportTemplates = [];
 
 		foreach ($datasourceIndex as $key => $class) {
 			$datasources[$key] = $class->getName();
 			$options[$key] = $class->getTemplate();
+			if ($class instanceof IReportTemplateProvider) {
+				$reportTemplates[$key] = $class->getReportTemplates();
+			} else {
+				$reportTemplates[$key] = [];
+			}
 		}
 
 		$result['datasources'] = $datasources;
 		$result['options'] = $options;
+		$result['reportTemplates'] = $reportTemplates;
 
 		return $result;
 	}

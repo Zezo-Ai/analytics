@@ -207,10 +207,18 @@
                         <select style="display: table-cell;" id="wizardNewGrouping" class="sidebarInput">
                             <option value="0"></option>
                         </select>
+                        <br>
+                        <?php p($l->t('Report template (optional)')); ?>
+                        <br>
+                        <select style="display: table-cell;" id="wizardNewGlobalTemplate" class="sidebarInput">
+                            <option value=""><?php p($l->t('No template')); ?></option>
+                        </select>
                     </div>
                     <div style="display: table-cell;">
                         <br>
                         <?php p($l->t('Reports can be grouped into a folder structure.')); ?>
+                        <br><br>
+                        <?php p($l->t('Templates can pre-fill report settings for this data source.')); ?>
                     </div>
                 </div>
             </div>
@@ -244,6 +252,21 @@
                     <div style="display: table-cell;">
                         <br>
                         <?php p($l->t('Different data sources are available. The data is read in real-time when the report is being executed.')); ?>
+                        <br>
+                    </div>
+                </div>
+                <div id="wizardNewTypeTemplateRow" style="display: none;">
+                    <div style="display: table-cell; width: 50%;">
+                        <?php p($l->t('Report template (optional)')); ?>
+                        <br>
+                        <select style="display: table-cell;" id="wizardNewDatasourceTemplate" class="sidebarInput">
+                            <option value=""><?php p($l->t('No template')); ?></option>
+                        </select>
+                        <br>
+                        <br>
+                    </div>
+                    <div style="display: table-cell;">
+                        <?php p($l->t('Templates can pre-fill report settings for this data source.')); ?>
                         <br>
                     </div>
                 </div>
@@ -317,6 +340,12 @@
         <div class="content content-values">
             <h2><?php p($l->t('Visualization of the report')); ?></h2>
             <h3><?php p($l->t('All settings can be changed afterwards')); ?></h3>
+            <div id="wizardNewVisualSelectionArea" style="position: relative;">
+                <div id="wizardNewVisualTemplateHint"
+                     class="userGuidance"
+                     style="display: none; position: absolute; z-index: 10; top: 8px; left: 50%; transform: translateX(-50%); padding: 10px 14px; border-radius: 8px; background: var(--color-main-background); border: 1px solid var(--color-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+                    <?php p($l->t('Visualization is preconfigured by the selected template and cannot be changed in this step.')); ?>
+                </div>
             <div class="table" style="display: table; width: 100%;">
                 <div style="display: table-row;">
                     <div style="display: table-cell; width: 50%;">
@@ -408,6 +437,7 @@
                         </button>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

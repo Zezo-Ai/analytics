@@ -11,7 +11,7 @@ namespace OCA\Analytics\Datasource;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
-class Github implements IDatasource {
+class Github implements IDatasource, IReportTemplateProvider {
 	private const CACHE_TTL_SECONDS = 60;
 
 	private LoggerInterface $logger;
@@ -82,6 +82,38 @@ class Github implements IDatasource {
 			'placeholder' => $this->l10n->t('optional')
 		];
 		return $template;
+	}
+
+	/**
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function getReportTemplates(): array {
+		return [
+			'github_demo_downloads' => [
+				'name' => 'GitHub Download Statistics',
+				'report' => [
+					'name' => 'GitHub Download Statistics',
+					'subheader' => 'Realtime download statistics of GitHub releases',
+					'parent' => '0',
+					'type' => 3,
+					'dataset' => 0,
+					'link' => '{"dataSourceType":"","data":"release","limit":"10","timestamp":"false","filter":"","showAssets":"false","token":""}',
+					'visualization' => 'ct',
+					'chart' => 'column',
+					'dimension1' => 'Version',
+					'dimension2' => 'Version',
+					'value' => 'false',
+					'chartoptions' => '{"__analytics_gui":{"version":2,"model":"kpiModel","doughnutLabelStyle":"percentage"}}',
+					'dataoptions' => '[]',
+				],
+				'options' => [
+					'chartoptions' => '{"__analytics_gui":{"version":2,"model":"kpiModel","doughnutLabelStyle":"percentage"}}',
+					'dataoptions' => '[]',
+					'filteroptions' => '{}',
+					'tableoptions' => '{"order":[[0,"desc"]]}',
+				],
+			],
+		];
 	}
 
 	/**
