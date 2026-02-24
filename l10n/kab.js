@@ -39,6 +39,7 @@ OC.L10N.register(
     "Back" : "Retour",
     "Name" : "Nom",
     "Table" : "Tafelwit",
+    "Export" : "Sifeḍ",
     "Option" : "Taxtiṛt",
     "Nextcloud Assistant" : "Amallal n Nextcloud",
     "Description" : "Aglam",
