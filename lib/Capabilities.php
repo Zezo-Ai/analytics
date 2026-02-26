@@ -11,13 +11,13 @@ namespace OCA\Analytics;
 use OCP\Capabilities\ICapability;
 use OCA\Analytics\AppInfo\Application;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 
-	private $l10n;
-
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,) {
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Capabilities implements ICapability {
 							'method' => 'POST',
 							'mimetype_filters' => 'text/csv',
 							'params' => ['fileId' => '{fileId}'],
-							'icon' => '/apps/analytics/img/app.svg'
+							'icon' => $this->urlGenerator->imagePath('analytics', 'app-integration.svg'),
 						],
 					],
 				],
