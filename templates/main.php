@@ -15,6 +15,7 @@ Util::addStyle('files_sharing', 'icons');
 Util::addStyle('analytics', 'dashboard');
 Util::addStyle('analytics', 'wizard');
 Util::addStyle('analytics', 'print');
+Util::addStyle('analytics', 'splash');
 Util::addScript('analytics', 'app');
 Util::addScript('analytics', 'chartOptions');
 Util::addScript('analytics', 'visualization');
@@ -35,6 +36,7 @@ Util::addScript('analytics', '3rdParty/moment.min');
 Util::addScript('analytics', '3rdParty/cloner');
 Util::addScript('analytics', 'dashboard');
 Util::addScript('analytics', 'userGuidance');
+Util::addScript('analytics', 'splash');
 ?>
 
 <div id="app-navigation">
@@ -66,6 +68,7 @@ Util::addScript('analytics', 'userGuidance');
            target="_blank"><?php p($l->t('More Information …')); ?></a>
     </div>
 </div>
+<?php print_unescaped($this->inc('partials/splash')); ?>
 <?php print_unescaped($this->inc('part.sidebar')); ?>
 <div>
     <?php print_unescaped($this->inc('part.templates')); ?>

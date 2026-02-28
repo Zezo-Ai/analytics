@@ -50,7 +50,7 @@
         height: 60px;
         text-align: center;
         line-height: 60px;
-        background-color: var(--color-info);
+        background-color: #12426E;
         color: white;
         border-radius: 50%;
         cursor: pointer;
@@ -59,7 +59,7 @@
     }
 
     .menu-item:hover {
-        background-color: var(--color-info-hover);
+        background-color: var(--color-element-info);
     }
 
     .editMenu .close-menu-item {
@@ -236,6 +236,10 @@
         padding: 0;
         margin: 2px;
         border: 1px solid #888;
+    }
+
+    .layoutModalGridPreview .panoramaSubHeaderRow {
+        display: none;
     }
 
     .heading-anchor,

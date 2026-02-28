@@ -39,6 +39,15 @@ Object.assign(OCA.Analytics.Panorama = {
 
     stories: {},
     emptyPageTemplate: {page: 0, name: 'New', reports: [], layout: ''},
+    createEmptyPage: function () {
+        // return a fresh object each time to avoid leaking page state between panoramas
+        return {
+            page: OCA.Analytics.Panorama.emptyPageTemplate.page,
+            name: OCA.Analytics.Panorama.emptyPageTemplate.name,
+            reports: [],
+            layout: OCA.Analytics.Panorama.emptyPageTemplate.layout,
+        };
+    },
     layouts: [
         {
             id: 1, name: '2-1', layout: '<div class="flex-container">' +
@@ -212,7 +221,7 @@ Object.assign(OCA.Analytics.Panorama = {
             OCA.Analytics.currentPanorama.pages[page].name = item.innerText;
         });
 
-        OCA.Analytics.currentPanorama.pages.push({page: 0, name: 'New', reports: [], layout: ''});
+        OCA.Analytics.currentPanorama.pages.push(OCA.Analytics.Panorama.createEmptyPage());
         OCA.Analytics.Panorama.getPanorama('next');
         OCA.Analytics.Panorama.updateNavButtons();
     },
@@ -226,7 +235,7 @@ Object.assign(OCA.Analytics.Panorama = {
 
         // add an empty page if the panorama is empty/new
         if (OCA.Analytics.currentPanorama.pages.length === 0) {
-            OCA.Analytics.currentPanorama.pages.push(OCA.Analytics.Panorama.emptyPageTemplate);
+            OCA.Analytics.currentPanorama.pages.push(OCA.Analytics.Panorama.createEmptyPage());
         }
 
         // Add the layout page by page
@@ -875,9 +884,20 @@ Object.assign(OCA.Analytics.Panorama = {
                 document.getElementById('layoutModal').style.display = 'none';
                 let selectedLayout = OCA.Analytics.Panorama.layouts.find(x => parseInt(x.id) === parseInt(e.currentTarget.id));
                 let currentPage = OCA.Analytics.currentPage;
-                OCA.Analytics.currentPanorama.pages[currentPage].layout = selectedLayout.layout;
+                let page = OCA.Analytics.currentPanorama.pages[currentPage];
+                const isInitialLayoutSelection = OCA.Analytics.currentPanorama.pages.length === 1
+                    && currentPage === 0
+                    && page.layout === ''
+                    && Array.isArray(page.reports)
+                    && page.reports.length === 0;
+                page.layout = selectedLayout.layout;
+                OCA.Analytics.editMode = isInitialLayoutSelection;
                 OCA.Analytics.Panorama.getPanorama(currentPage);
-                OCA.Analytics.editMode = false;
+                if (isInitialLayoutSelection) {
+                    OCA.Analytics.Panorama.addEditableTextBoxes();
+                } else {
+                    OCA.Analytics.Panorama.removeEditableTextBoxes();
+                }
 
                 // show the save icon
                 OCA.Analytics.unsavedChanges = true;
@@ -1352,6 +1372,7 @@ Object.assign(OCA.Analytics.Panorama.Backend = {
                 OCA.Analytics.Navigation.addNavigationItem(data);
                 const anchor = document.querySelector('#navigationDatasets a[data-id="' + data.id + '"][data-item_type="panorama"]');
                 anchor?.click();
+                OCA.Analytics.Panorama.buildLayoutSelector();
             });
     },
 
