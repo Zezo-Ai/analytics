@@ -431,7 +431,7 @@
     "Text variables can be used in the name or subheader. They are replaced when the report is executed." : "Text Variablen können im Berichtsnamen oder der Beschreibung verwendet werden. Sie werden ersetzt, wenn der Bericht ausgeführt wird.",
     "The following variables are available:" : "Die folgenden Variablen stehen zur Verfügung:",
     "Report template (optional)" : "Berichtsvorlage (optional)",
-    "Templates can pre-fill report settings for this data source." : "Mit Vorlagen können Berichtseinstellungen für diese Datenquelle vorab ausgefüllt werden.",
+    "Templates provide preconfigured reports for a data source." : "Vorlagen bieten fertig konfigurierte Berichte für eine Datenquelle",
     "Type of report" : "Typ des Berichts",
     "Real-time Data" : "Echtzeitdaten",
     "Stored Data" : "Gespeicherte Daten",

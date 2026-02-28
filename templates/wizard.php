@@ -218,7 +218,7 @@
                         <br>
                         <?php p($l->t('Reports can be grouped into a folder structure.')); ?>
                         <br><br>
-                        <?php p($l->t('Templates can pre-fill report settings for this data source.')); ?>
+                        <?php p($l->t('Templates provide preconfigured reports for a data source.')); ?>
                     </div>
                 </div>
             </div>
@@ -266,7 +266,7 @@
                         <br>
                     </div>
                     <div style="display: table-cell;">
-                        <?php p($l->t('Templates can pre-fill report settings for this data source.')); ?>
+                        <?php p($l->t('Templates provide preconfigured reports for a data source.')); ?>
                         <br>
                     </div>
                 </div>
