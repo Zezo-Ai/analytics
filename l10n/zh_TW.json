@@ -431,7 +431,6 @@
     "Text variables can be used in the name or subheader. They are replaced when the report is executed." : "文字變數可在名稱或子標題中使用。它們會在執行報告時被取代。",
     "The following variables are available:" : "以下變數可用：",
     "Report template (optional)" : "報告範本（選擇性）",
-    "Templates can pre-fill report settings for this data source." : "範本可預先填入此資料來源的報表設定。",
     "Type of report" : "報告類型",
     "Real-time Data" : "即時資料",
     "Stored Data" : "已儲存的資料",

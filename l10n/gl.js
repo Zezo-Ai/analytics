@@ -433,7 +433,6 @@ OC.L10N.register(
     "Text variables can be used in the name or subheader. They are replaced when the report is executed." : "Pódense usar variábeis de texto no nome ou subcabeceira. Substitúense cando se executa o informe.",
     "The following variables are available:" : "Están dispoñíbeis as seguintes variábeis:",
     "Report template (optional)" : "Modelo de informe (opcional)",
-    "Templates can pre-fill report settings for this data source." : "Nos modelos poden encherse previamente os axustes do informe para esta orixe de datos.",
     "Type of report" : "Tipo de informe",
     "Real-time Data" : "Datos en tempo real",
     "Stored Data" : "Datos almacenados",
