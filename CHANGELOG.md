@@ -1,6 +1,6 @@
 # Changelog
 
-## 6.7.3
+## 6.8.0 - 2026-08-25
 ### Changed
 - Group Nextcloud Tables and their views in the data source selector, showing the table name when collapsed and "Entire table" in the open menu.
 - Respect Nextcloud's administrator setting for external data sources hosted on the local network #579.
