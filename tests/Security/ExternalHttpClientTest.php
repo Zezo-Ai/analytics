@@ -7,6 +7,7 @@
 namespace OCA\Analytics\Tests\Security;
 
 use OCA\Analytics\Security\ExternalHttpClient;
+use OCA\Analytics\Security\ExternalUrlValidator;
 use OCP\Http\Client\IClientService;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +46,10 @@ class ExternalHttpClientTest extends TestCase {
 			}
 		};
 
-		$result = (new ExternalHttpClient($service))->request('https://93.184.216.34/data');
+		$urlValidator = $this->createMock(ExternalUrlValidator::class);
+		$urlValidator->method('validate')->willReturn(null);
+
+		$result = (new ExternalHttpClient($service, $urlValidator))->request('https://93.184.216.34/data');
 
 		$this->assertSame(200, $result['status']);
 		$this->assertSame('{"ok":true}', $result['body']);

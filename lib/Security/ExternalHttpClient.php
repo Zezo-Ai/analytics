@@ -12,7 +12,10 @@ class ExternalHttpClient {
 	public const CONNECT_TIMEOUT_SECONDS = 10;
 	public const TIMEOUT_SECONDS = 60;
 
-	public function __construct(private IClientService $clientService) {
+	public function __construct(
+		private IClientService $clientService,
+		private ExternalUrlValidator $urlValidator,
+	) {
 	}
 
 	/**
@@ -26,7 +29,7 @@ class ExternalHttpClient {
 		?string $body = null,
 		?string $basicAuth = null,
 	): array {
-		$urlError = ExternalUrlValidator::validate($url);
+		$urlError = $this->urlValidator->validate($url);
 		if ($urlError !== null) {
 			return ['status' => 0, 'body' => '', 'error' => $urlError];
 		}

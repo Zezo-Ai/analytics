@@ -3,6 +3,7 @@
 ## 6.7.3
 ### Changed
 - Group Nextcloud Tables and their views in the data source selector, showing the table name when collapsed and "Entire table" in the open menu.
+- Respect Nextcloud's administrator setting for external data sources hosted on the local network #579.
 
 ### Fixed
 - Restore PDF export for panoramas #584.
