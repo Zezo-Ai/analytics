@@ -534,7 +534,7 @@ OC.L10N.register(
     "All settings can be changed afterwards" : "Visus nustatymus galima pakeisti vėliau",
     "Visualization is preconfigured by the selected template and cannot be changed in this step." : "Vizualizacija yra iš anksto sukonfigūruota pasirinkto šablono ir šiame veiksme jos negalima keisti.",
     "No Chart" : "Nėra diagramos",
-    "No Table" : "No Table",
+    "No Table" : "Nėra  lentelės",
     "The report can now be created" : "Dabar galima sukurti ataskaitą",
     "Create" : "Sukurti"
 },
