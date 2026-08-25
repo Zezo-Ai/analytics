@@ -4,6 +4,9 @@
 ### Changed
 - Group Nextcloud Tables and their views in the data source selector, showing the table name when collapsed and "Entire table" in the open menu.
 
+### Fixed
+- Restore PDF export for panoramas #584.
+
 ## 6.7.2 - 2026-08-14
 ### Fixed
 - NC35 command signature

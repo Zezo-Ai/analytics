@@ -23,6 +23,8 @@ Util::addScript('analytics', 'sidebar');
 Util::addScript('analytics', 'navigation');
 Util::addScript('analytics', 'filter');
 Util::addScript('analytics', 'report');
+Util::addScript('analytics', '3rdParty/jspdf.umd.min');
+Util::addScript('analytics', '3rdParty/html2canvas.min');
 Util::addScript('analytics', 'panorama');
 Util::addScript('analytics', 'dataset');
 Util::addScript('analytics', '3rdParty/jquery.min');

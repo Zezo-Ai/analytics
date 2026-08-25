@@ -1100,18 +1100,6 @@ Object.assign(OCA.Analytics.Panorama = {
             t('analytics', 'Starting PDF export')
         );
 
-        const appContent = document.getElementById('app-content');
-        const computedStyles = getComputedStyle(appContent);
-        const backgroundColor = computedStyles.backgroundColor; // Get the resolved background color
-        // Extract RGB values from "rgb(x, y, z)"
-        const rgbMatch = backgroundColor.match(/\d+/g); // Matches ["240", "240", "240"]
-        const [r, g, b] = rgbMatch.map(Number); // Convert to numbers
-
-
-        // getting the header
-        let headerElement = document.getElementById('panoramaHeaderRow');
-        let headerCanvas = await html2canvas(headerElement, {scale: 2});
-        let headerData = headerCanvas.toDataURL('image/png');
         let headerText = document.getElementById('panoramaHeader').textContent;
 
         // hide the subheaders. will only take the text later
@@ -1121,8 +1109,8 @@ Object.assign(OCA.Analytics.Panorama = {
         });
 
         // getting "by analytics"
-        let byAnalyticsImg = document.getElementById('byAnalyticsImg');
-        let byAnalyticsElement = document.getElementById('byAnalytics');
+        let byAnalyticsImg = document.querySelector('#analytics-content-panorama #byAnalyticsImg');
+        let byAnalyticsElement = document.querySelector('#analytics-content-panorama #byAnalytics');
         let byAnalyticsClass = byAnalyticsElement.classList.contains('analyticsFullscreen');
 
         if (!byAnalyticsClass) {
@@ -1198,13 +1186,6 @@ Object.assign(OCA.Analytics.Panorama = {
                 pdf.setFontSize(16); // Adjust as needed
                 let textYOffset = 23; // Adjust based on your headerHeight and padding
                 pdf.text(headerText, 40, textYOffset, {align: 'left'});
-
-                // getting the subheader
-                let subHeaderElement = document.getElementById('panoramaSubHeader-' + index);
-                let subHeaderCanvas = await html2canvas(subHeaderElement, {scale: 2});
-                let subHeaderData = subHeaderCanvas.toDataURL('image/png');
-                // Add graphical header
-                // pdf.addImage(subHeaderData, 'PNG', 28, 40, 380, 25, 200, 'FAST');
 
                 // draw the subheader
                 let subHeaderText = document.getElementById('panoramaSubHeader-' + index).textContent;
