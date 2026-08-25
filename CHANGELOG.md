@@ -6,6 +6,7 @@
 
 ### Fixed
 - Restore PDF export for panoramas #584.
+- Open the column picker for empty data sources and show their columns without preview values.
 
 ## 6.7.2 - 2026-08-14
 ### Fixed

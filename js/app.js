@@ -908,12 +908,16 @@ Object.assign(OCA.Analytics.Datasource = {
      * Render the column picker list from provided data
      */
     createColumnPickerContent: function (data) {
-        // Array of items
-        const items = data.data[0].map((value, index) => {
+        const previewRow = Array.isArray(data.data) && Array.isArray(data.data[0])
+            ? data.data[0]
+            : [];
+
+        // Headers are available even when the data source has no rows.
+        const items = data.header.map((name, index) => {
             return {
                 id: index + 1,
-                name: data.header[index],
-                text: value,
+                name: name,
+                text: previewRow[index] ?? '',
                 checked: true
             };
         });
