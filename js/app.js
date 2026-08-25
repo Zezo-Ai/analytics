@@ -685,6 +685,10 @@ Object.assign(OCA.Analytics.Datasource = {
         input.id = templateOption.id;
         input.dataset.type = templateOption.type;
 
+        if (OCA.Analytics.Datasource.buildNestedTableSelect(input, templateOption)) {
+            return input;
+        }
+
         // if options are split with "-", they are considered as value/key pairs
         let selectOptions = templateOption.placeholder.split("/")
         for (let selectOption of selectOptions) {
@@ -702,6 +706,145 @@ Object.assign(OCA.Analytics.Datasource = {
             input.appendChild(option);
         }
         return input;
+    },
+
+    /**
+     * Group a flattened Tables data source list by its table and view IDs
+     */
+    buildNestedTableSelect: function (input, templateOption) {
+        if (templateOption.id !== 'tableId' || typeof templateOption.placeholder !== 'string') {
+            return false;
+        }
+
+        const rawOptions = templateOption.placeholder.split('/').filter(option => option !== '');
+        const parsedOptions = [];
+        let hasView = false;
+
+        for (const rawOption of rawOptions) {
+            const separator = rawOption.indexOf('-');
+            if (separator <= 0) {
+                return false;
+            }
+
+            const value = rawOption.substring(0, separator);
+            const label = rawOption.substring(separator + 1);
+            const viewMatch = value.match(/^(\d+):(\d+)$/);
+            const tableMatch = value.match(/^\d+$/);
+            if (!tableMatch && !viewMatch) {
+                return false;
+            }
+
+            parsedOptions.push({
+                value: value,
+                label: label,
+                tableId: viewMatch ? viewMatch[1] : value,
+                viewId: viewMatch ? viewMatch[2] : null,
+            });
+            hasView = hasView || viewMatch !== null;
+        }
+
+        if (!hasView) {
+            return false;
+        }
+
+        const tables = new Map();
+        for (const option of parsedOptions) {
+            if (option.viewId === null) {
+                tables.set(option.tableId, {
+                    label: option.label,
+                    value: option.value,
+                    views: [],
+                });
+            }
+        }
+
+        const sharedViews = new Map();
+        for (const option of parsedOptions) {
+            if (option.viewId === null) {
+                continue;
+            }
+            if (tables.has(option.tableId)) {
+                tables.get(option.tableId).views.push(option);
+            } else {
+                if (!sharedViews.has(option.tableId)) {
+                    sharedViews.set(option.tableId, []);
+                }
+                sharedViews.get(option.tableId).push(option);
+            }
+        }
+
+        for (const table of tables.values()) {
+            const group = document.createElement('optgroup');
+            group.label = table.label;
+            const displayOption = OCA.Analytics.Datasource.appendSelectOption(group, table.value, table.label);
+            displayOption.hidden = true;
+            displayOption.dataset.tableDisplayOption = 'true';
+            const menuOption = OCA.Analytics.Datasource.appendSelectOption(
+                group,
+                table.value,
+                t('analytics', 'Entire table')
+            );
+            menuOption.dataset.tableMenuOption = 'true';
+            OCA.Analytics.Datasource.appendTableViews(group, table.views);
+            input.appendChild(group);
+        }
+
+        for (const [tableId, views] of sharedViews) {
+            const group = document.createElement('optgroup');
+            group.label = t('analytics', 'Shared views') + ' #' + tableId;
+            OCA.Analytics.Datasource.appendTableViews(group, views);
+            input.appendChild(group);
+        }
+
+        OCA.Analytics.Datasource.configureTableSelectDisplayOptions(input);
+        return true;
+    },
+
+    /**
+     * Switch a selected "Entire table" menu entry to its hidden table-name display option
+     */
+    configureTableSelectDisplayOptions: function (input) {
+        input.addEventListener('change', function () {
+            const selectedOption = input.options[input.selectedIndex];
+            if (!selectedOption || selectedOption.dataset.tableMenuOption !== 'true') {
+                return;
+            }
+
+            for (const option of input.options) {
+                if (option.dataset.tableDisplayOption === 'true' && option.value === selectedOption.value) {
+                    option.selected = true;
+                    return;
+                }
+            }
+        });
+    },
+
+    /**
+     * Append table views and disambiguate duplicate names within one table
+     */
+    appendTableViews: function (target, views) {
+        const labelCounts = new Map();
+        for (const view of views) {
+            labelCounts.set(view.label, (labelCounts.get(view.label) || 0) + 1);
+        }
+
+        for (const view of views) {
+            const label = labelCounts.get(view.label) > 1
+                ? view.label + ' (#' + view.viewId + ')'
+                : view.label;
+            OCA.Analytics.Datasource.appendSelectOption(target, view.value, label);
+        }
+    },
+
+    /**
+     * Append one option to a select or option group
+     */
+    appendSelectOption: function (target, value, label) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.innerText = label;
+        target.appendChild(option);
+        return option;
     },
 
     /**
