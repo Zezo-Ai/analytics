@@ -8,6 +8,7 @@ OC.L10N.register(
     "Please select" : "Молимо изаберите",
     "Data source not available anymore" : "Извор података више није доступан",
     "File name" : "Име фајла",
+    "Shared views" : "Дељени погледи",
     "Column Picker" : "Бирач колона",
     "Parameter missing" : "Недостаје параметар",
     "Add custom column" : "Додај произвољну колону",

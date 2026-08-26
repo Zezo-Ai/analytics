@@ -13,6 +13,7 @@ OC.L10N.register(
     "Edit file name" : "編輯檔案名稱",
     "File name" : "檔案名稱",
     "Keep the selected path and replace parts of the file name with text variables, for example report_%today%(Y-m-d).csv. The variable is resolved when the data load runs. See the {linkstart}Wiki{linkend}." : "保留所選路徑，並以文字變數取代檔案名稱的部分內容，例如 report_%today%(Y-m-d).csv。執行資料載入時會解析該變數。請參閱{linkstart}維基{linkend}。",
+    "Shared views" : "已分享的檢視",
     "Column Picker" : "直欄選擇器",
     "Parameter missing" : "找不到參數",
     "Custom Column" : "自訂直欄",

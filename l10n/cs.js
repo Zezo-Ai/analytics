@@ -8,6 +8,7 @@ OC.L10N.register(
     "Please select" : "Vyberte",
     "Data source not available anymore" : "Zdroj dat už není k dispozici",
     "File name" : "Název souboru",
+    "Shared views" : "Sdílené pohledy",
     "Column Picker" : "Výběr sloupců",
     "Parameter missing" : "Chybí parametr",
     "Custom Column" : "Uživatelsky určený sloupec",

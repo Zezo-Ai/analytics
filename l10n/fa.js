@@ -10,6 +10,7 @@ OC.L10N.register(
     "Datasources still loading. Retry" : "منابع داده هنوز در حال بارگذاری هستند. تلاش دوباره",
     "Data source not available anymore" : "منبع داده دیگر در دسترس نیست",
     "File name" : "نام فایل",
+    "Shared views" : "Shared views",
     "Column Picker" : "انتخاب‌گر ستون",
     "Parameter missing" : "پارامتر缺失",
     "Custom Column" : "ستون سفارشی",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Please select" : "Seleccione",
     "Data source not available anymore" : "A orixe de datos xa non está dispoñíbel",
     "File name" : "Nome de ficheiro",
+    "Shared views" : "Vistas compartidas",
     "Column Picker" : "Selector de columnas",
     "Parameter missing" : "Falta o parámetro",
     "Add custom column" : "Engadir unha columna personalizada",
