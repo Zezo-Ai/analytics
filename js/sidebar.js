@@ -74,9 +74,7 @@ OCA.Analytics.Sidebar = {
             excludeTypes: [],
         });
 
-        let items = _.map(OCA.Analytics.Sidebar.sidebar_tabs, function (item) {
-            return item;
-        });
+        let items = Object.values(OCA.Analytics.Sidebar.sidebar_tabs);
         items.sort(OCA.Analytics.Sidebar.sortByName);
 
         for (let tab in items) {

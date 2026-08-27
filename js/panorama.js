@@ -899,28 +899,40 @@ Object.assign(OCA.Analytics.Panorama = {
                 let reportIndex = itemId.split('-')[1];
                 let targetItem = document.getElementById(itemId);
 
-                let client = OC.Files.getClient()
-                client.getFileInfo(path).then((status, fileInfo) => {
-                    console.log(fileInfo.id)
-                    targetItem.setAttribute('data-chart', null);
-                    let page = OCA.Analytics.currentPanorama.pages[pageId];
-                    //let reportsArr = page.reports.split(',');
-                    let reportsArr = page.reports;
-                    reportsArr[reportIndex] = {
-                        'type': OCA.Analytics.PANORAMA_CONTENT_TYPE_PICTURE,
-                        'value': fileInfo.id
-                    };
-                    delete reportsArr[reportIndex].options;
-                    //page.reports = reportsArr.join(',');
-                    OCA.Analytics.Panorama.buildWidget(itemId);
-                    OCA.Analytics.Panorama.buildSingleOverlay(targetItem, true);
-
-                    // show the save icon
-                    OCA.Analytics.unsavedChanges = true;
-                    OCA.Analytics.Filter.toggleSaveButtonDisplay();
-
-                    document.getElementById('modalPicture').style.display = 'none';
+                fetch(OC.generateUrl('apps/analytics/panorama/file'), {
+                    method: 'POST',
+                    headers: OCA.Analytics.headers(),
+                    body: JSON.stringify({path: path})
                 })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Picture file could not be resolved');
+                        }
+                        return response.json();
+                    })
+                    .then(fileInfo => {
+                        targetItem.setAttribute('data-chart', null);
+                        let page = OCA.Analytics.currentPanorama.pages[pageId];
+                        //let reportsArr = page.reports.split(',');
+                        let reportsArr = page.reports;
+                        reportsArr[reportIndex] = {
+                            'type': OCA.Analytics.PANORAMA_CONTENT_TYPE_PICTURE,
+                            'value': fileInfo.fileId
+                        };
+                        delete reportsArr[reportIndex].options;
+                        //page.reports = reportsArr.join(',');
+                        OCA.Analytics.Panorama.buildWidget(itemId);
+                        OCA.Analytics.Panorama.buildSingleOverlay(targetItem, true);
+
+                        // show the save icon
+                        OCA.Analytics.unsavedChanges = true;
+                        OCA.Analytics.Filter.toggleSaveButtonDisplay();
+
+                        document.getElementById('modalPicture').style.display = 'none';
+                    })
+                    .catch(() => {
+                        OCA.Analytics.Notification.notification('error', t('analytics', 'The selected picture is not available'));
+                    });
             },
             false,
             mime,

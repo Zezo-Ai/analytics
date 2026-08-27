@@ -23,6 +23,41 @@ var myMoment = moment;
  */
 OCA.Analytics.Visualization = {
     defaultColorPalette: ["#1A366C", "#EA6A47", "#a3acb9", "#6AB187", "#39a7db", "#c85200", "#57606c", "#a3cce9", "#ffbc79", "#c8d0d9"],
+    htmlEscapeMap: {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '`': '&#x60;',
+    },
+    htmlUnescapeMap: {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#x27;': "'",
+        '&#x60;': '`',
+    },
+
+    escapeHtml: function (value) {
+        return value === null || value === undefined
+            ? ''
+            : String(value).replace(
+                /[&<>"'`]/g,
+                character => OCA.Analytics.Visualization.htmlEscapeMap[character]
+            );
+    },
+
+    unescapeHtml: function (value) {
+        return value === null || value === undefined
+            ? ''
+            : String(value).replace(
+                /&(amp|lt|gt|quot|#x27|#x60);/g,
+                entity => OCA.Analytics.Visualization.htmlUnescapeMap[entity]
+            );
+    },
+
     timeAggregationFormats: {
         day: 'YYYY-MM-DD',
         week: 'YYYY-MM-DD',
@@ -273,9 +308,7 @@ OCA.Analytics.Visualization = {
         }
 
         let normalizedValue = String(value).trim();
-        if (typeof _ !== 'undefined' && _.unescape) {
-            normalizedValue = _.unescape(normalizedValue);
-        }
+        normalizedValue = OCA.Analytics.Visualization.unescapeHtml(normalizedValue);
         normalizedValue = normalizedValue.replace(/<[^>]*>/g, '').replace(/%$/, '').trim();
 
         const hasComma = normalizedValue.includes(',');
@@ -672,7 +705,7 @@ OCA.Analytics.Visualization = {
 
     getCalculatedColumnTableDefinition: function (calc, calcIndex) {
         return {
-            title: _.escape(calc.title),
+            title: OCA.Analytics.Visualization.escapeHtml(calc.title),
             className: 'dt-right',
             calculationId: calcIndex,
             analyticsReference: 'calculation:' + calcIndex,
@@ -683,7 +716,7 @@ OCA.Analytics.Visualization = {
                 }
                 const value = OCA.Analytics.Visualization.parseCalculatedColumnNumber(data);
                 const formattedValue = value.toLocaleString() + (calc.operation === 'percentage' ? ' %' : '');
-                return _.escape(formattedValue);
+                return OCA.Analytics.Visualization.escapeHtml(formattedValue);
             }
         };
     },
@@ -693,7 +726,7 @@ OCA.Analytics.Visualization = {
             return null;
         }
 
-        const text = _.unescape(String(value)).trim();
+        const text = OCA.Analytics.Visualization.unescapeHtml(value).trim();
         if (text === '') {
             return null;
         }
@@ -727,8 +760,8 @@ OCA.Analytics.Visualization = {
             return data;
         }
 
-        return '<a class="analytics-table-link" href="' + _.escape(link.url) + '" target="_blank" rel="noopener noreferrer">'
-            + _.escape(link.title)
+        return '<a class="analytics-table-link" href="' + OCA.Analytics.Visualization.escapeHtml(link.url) + '" target="_blank" rel="noopener noreferrer">'
+            + OCA.Analytics.Visualization.escapeHtml(link.title)
             + '</a>';
     },
 
@@ -902,7 +935,7 @@ OCA.Analytics.Visualization = {
 
             // create the columns. default alignment is left
             columns = header.map((header, index) => ({
-                title: _.escape(header),
+                title: OCA.Analytics.Visualization.escapeHtml(header),
                 className: '',
                 analyticsReference: this.getTableColumnReference('source', index, header),
                 analyticsLabel: String(header),
@@ -923,13 +956,13 @@ OCA.Analytics.Visualization = {
                             // do not format 4 digit year numbers in the first 2 columns. dirty hack until proper column formating is there
                         } else {
                             columns[index].className = 'dt-right';
-                            return _.escape(parseFloat(value).toLocaleString());
+                            return OCA.Analytics.Visualization.escapeHtml(parseFloat(value).toLocaleString());
                         }
                     } else if (index === row.length - 1 && !isNaN(parseFloat(value))) {
                         columns[index].className = 'dt-right';
-                        return _.escape(parseFloat(value).toLocaleString());
+                        return OCA.Analytics.Visualization.escapeHtml(parseFloat(value).toLocaleString());
                     }
-                    return _.escape(value);
+                    return OCA.Analytics.Visualization.escapeHtml(value);
                 })
             );
         } else if (layoutConfig.rows && !layoutConfig.columns.length && !layoutConfig.measures.length) {
@@ -937,7 +970,7 @@ OCA.Analytics.Visualization = {
 
             // Use titles from the headers array based on the reordered sequence (indices)
             columns = layoutConfig.rows.map((index, i) => ({
-                title: _.escape(header[index]),
+                title: OCA.Analytics.Visualization.escapeHtml(header[index]),
                 className: i > 0 && (!timeAggregationDisplayConfig || index !== timeAggregationDisplayConfig.dimension) ? 'dt-right' : '',
                 analyticsReference: this.getTableColumnReference('source', index, header[index]),
                 analyticsLabel: String(header[index]),
@@ -958,8 +991,8 @@ OCA.Analytics.Visualization = {
                     (timeAggregationDisplayConfig && index === timeAggregationDisplayConfig.dimension)
                         ? row[index]
                         : (i === rowsLength - 1 && !isNaN(parseFloat(row[index]))
-                            ? _.escape(parseFloat(row[index]).toLocaleString())
-                            : _.escape(row[index]))
+                            ? OCA.Analytics.Visualization.escapeHtml(parseFloat(row[index]).toLocaleString())
+                            : OCA.Analytics.Visualization.escapeHtml(row[index]))
                 )
             );
         } else {
@@ -1000,14 +1033,14 @@ OCA.Analytics.Visualization = {
             const rowSourceIndex = layoutConfig.rows[0];
             const columnSourceIndex = layoutConfig.columns[0];
             columns = [{
-                title: _.escape(header[rowSourceIndex]),
+                title: OCA.Analytics.Visualization.escapeHtml(header[rowSourceIndex]),
                 className: '',
                 analyticsReference: this.getTableColumnReference('source', rowSourceIndex, header[rowSourceIndex]),
                 analyticsLabel: String(header[rowSourceIndex]),
             }];
             uniqueHeaders.forEach(pivotHeader => {
                 columns.push({
-                    title: _.escape(pivotHeader),
+                    title: OCA.Analytics.Visualization.escapeHtml(pivotHeader),
                     className: 'dt-right',
                     analyticsReference: this.getTableColumnReference(
                         'pivot',
@@ -1020,7 +1053,7 @@ OCA.Analytics.Visualization = {
                         if (data === null || isNaN(parseFloat(data))) {
                             return '';
                         } else {
-                            return _.escape(parseFloat(data).toLocaleString());
+                            return OCA.Analytics.Visualization.escapeHtml(parseFloat(data).toLocaleString());
                         }
                     }
                 });
@@ -1028,7 +1061,10 @@ OCA.Analytics.Visualization = {
 
             // Convert transformed data to array format
             data = Object.entries(transformedData).map(([key, values]) => {
-                return [_.escape(key), ...uniqueHeaders.map(header => _.escape(values[header] || ''))];
+                return [
+                    OCA.Analytics.Visualization.escapeHtml(key),
+                    ...uniqueHeaders.map(header => OCA.Analytics.Visualization.escapeHtml(values[header] || '')),
+                ];
             });
             this.applyTableCellRenderer(columns);
         }
@@ -1122,7 +1158,7 @@ OCA.Analytics.Visualization = {
         const result = this.convertDataToDataTableFormat(data || [], tableOptions || {}, header || []);
         return result.columns.map((column, index) => ({
             reference: column.analyticsReference,
-            label: column.analyticsLabel || _.unescape(column.title || ''),
+            label: column.analyticsLabel || OCA.Analytics.Visualization.unescapeHtml(column.title || ''),
             index: index,
         }));
     },
@@ -2151,7 +2187,7 @@ OCA.Analytics.Visualization = {
             }
 
             return OCA.Analytics.Visualization.renderTableCellContent(
-                _.escape(OCA.Analytics.Visualization.formatTimeAggregationDisplayValue(data, config)),
+                OCA.Analytics.Visualization.escapeHtml(OCA.Analytics.Visualization.formatTimeAggregationDisplayValue(data, config)),
                 type
             );
         };

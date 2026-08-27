@@ -2,7 +2,9 @@
 
 ## 6.8.1
 ### Fixed
+- Restore visualizations on Nextcloud 35 without relying on the removed global Underscore library.
 - Load the bundled Moment library before Analytics dashboard widgets on Nextcloud 35.
+- Restore panorama picture selection without relying on the removed `OC.Files.Client` API.
 
 ## 6.8.0 - 2026-08-25
 ### Changed

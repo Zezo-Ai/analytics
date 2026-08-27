@@ -101,9 +101,7 @@ Object.assign(OCA.Analytics.Dataset = {
             action: OCA.Analytics.Dataset.Dataload.tabContainerDataload,
         });
 
-        let items = _.map(OCA.Analytics.Dataset.sidebar_tabs, function (item) {
-            return item;
-        });
+        let items = Object.values(OCA.Analytics.Dataset.sidebar_tabs);
         items.sort(OCA.Analytics.Dataset.sortByName);
 
         let tabHeaders = document.querySelector('.datasetTabHeaders');

@@ -12,6 +12,8 @@ use OCA\Analytics\Service\PanoramaService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\DB\Exception;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 use OCP\PreConditionNotMetException;
 use Psr\Log\LoggerInterface;
@@ -59,6 +61,28 @@ class PanoramaController extends Controller
     public function create(int $type, int $parent)
     {
         return new DataResponse($this->PanoramaService->create($type, $parent));
+    }
+
+    /**
+     * Resolve a selected panorama picture to its file id.
+     *
+     * @param string $path
+     * @return DataResponse
+     */
+    #[NoAdminRequired]
+    public function resolvePictureFile(string $path): DataResponse
+    {
+        try {
+            return new DataResponse([
+                'fileId' => $this->PanoramaService->resolvePictureFile($path),
+            ]);
+        } catch (NotFoundException $e) {
+            return new DataResponse(false, 404);
+        } catch (NotPermittedException $e) {
+            return new DataResponse(false, 403);
+        } catch (\InvalidArgumentException $e) {
+            return new DataResponse(false, 400);
+        }
     }
 
 

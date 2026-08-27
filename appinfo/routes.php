@@ -49,6 +49,7 @@ return [
 		// Panorama
 		['name' => 'panorama#index', 'url' => '/panorama', 'verb' => 'GET'],
 		['name' => 'panorama#create', 'url' => '/panorama', 'verb' => 'POST'],
+		['name' => 'panorama#resolvePictureFile', 'url' => '/panorama/file', 'verb' => 'POST'],
 		['name' => 'panorama#read', 'url' => '/panorama/{panoramaId}', 'verb' => 'GET'],
 		['name' => 'panorama#delete', 'url' => '/panorama/{panoramaId}', 'verb' => 'DELETE'],
 		['name' => 'panorama#update', 'url' => '/panorama/{panoramaId}', 'verb' => 'PUT'],
