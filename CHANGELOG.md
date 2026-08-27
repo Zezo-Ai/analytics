@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.8.1
+### Fixed
+- Load the bundled Moment library before Analytics dashboard widgets on Nextcloud 35.
+
 ## 6.8.0 - 2026-08-25
 ### Changed
 - Group Nextcloud Tables and their views in the data source selector, showing the table name when collapsed and "Entire table" in the open menu.
