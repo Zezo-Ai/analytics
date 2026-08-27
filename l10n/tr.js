@@ -13,6 +13,7 @@ OC.L10N.register(
     "Edit file name" : "Dosya adını düzenle",
     "File name" : "Dosya adı",
     "Keep the selected path and replace parts of the file name with text variables, for example report_%today%(Y-m-d).csv. The variable is resolved when the data load runs. See the {linkstart}Wiki{linkend}." : "Seçilen yolu koruyun ve dosya adının parçalarını yazı değişkenleriyle değiştirin. Örnek rapor_%togund%(Y-m-d).csv. Veri yükü hazırlandığında değişken çözümlenir. Ayrıntılı bilgi almak için {linkstart}Wiki{linkend} sayfasına bakabilirsiniz.",
+    "Entire table" : "Tüm tablo",
     "Shared views" : "Paylaşılmış görünümler",
     "Column Picker" : "Sütun seçici",
     "Parameter missing" : "Parametre eksik",

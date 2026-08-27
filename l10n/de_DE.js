@@ -13,6 +13,7 @@ OC.L10N.register(
     "Edit file name" : "Dateinamen bearbeiten",
     "File name" : "Dateiname",
     "Keep the selected path and replace parts of the file name with text variables, for example report_%today%(Y-m-d).csv. The variable is resolved when the data load runs. See the {linkstart}Wiki{linkend}." : "Den ausgewählten Pfad beibehalten und Teile des Dateinamens durch Textvariablen ersetzen, zum Beispiel report_%today(Y-m-d).csv. Die Variable wird beim Ausführen des Datenladens aufgelöst. Siehe {linkstart}Wiki{linkend}.",
+    "Entire table" : "Gesamte Tabelle",
     "Shared views" : "Geteilte Ansichten",
     "Column Picker" : "Spaltenwähler",
     "Parameter missing" : "Parameter fehlt",

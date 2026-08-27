@@ -8,6 +8,7 @@ OC.L10N.register(
     "Please select" : "اختر من فضلك",
     "Data source not available anymore" : "مصدر البيانات لم يعد متاحاً ",
     "File name" : "اسم الملف",
+    "Shared views" : "مناظير مشتركة",
     "Column Picker" : "لاقط العمود Column Picker",
     "Parameter missing" : "المُعامِل operator ناقصٌ",
     "Add custom column" : "إضافة عمود مخصص",
