@@ -1,6 +1,6 @@
 # Changelog
 
-## 6.8.1
+## 6.8.1 - 2026-08-27
 ### Fixed
 - Restore visualizations on Nextcloud 35 without relying on the removed global Underscore library.
 - Load the bundled Moment library before Analytics dashboard widgets on Nextcloud 35.
