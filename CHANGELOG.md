@@ -7,6 +7,7 @@
 - Preserve slashes in Nextcloud Tables names and ignore malformed entries in the grouped data source selector.
 - Open the panorama content selector only from the edit prompt instead of the entire cell.
 - Close open options and navigation menus when clicking outside them.
+- Toggle sidebar sections when clicking their expand arrow.
 
 ## 6.8.1 - 2026-08-27
 ### Fixed

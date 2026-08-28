@@ -134,7 +134,7 @@ OCA.Analytics.Sidebar = {
     },
 
     showHideSidebarSection: function (evt) {
-        let header = evt.target.parentElement;
+        let header = evt.currentTarget;
         let clickedHeaderClosed = header.classList.contains('sidebarHeaderClosed');
         let section = header.nextElementSibling;
         if (clickedHeaderClosed) {
@@ -151,7 +151,7 @@ OCA.Analytics.Sidebar = {
     assignSectionHeaderClickEvents: function () {
         let elements = document.querySelectorAll('[id$="HeaderH3"]');
         for (let i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', OCA.Analytics.Sidebar.showHideSidebarSection);
+            elements[i].parentElement.addEventListener('click', OCA.Analytics.Sidebar.showHideSidebarSection);
         }
     },
 };

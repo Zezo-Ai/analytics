@@ -600,6 +600,7 @@ input.navigationRenameInput:hover {
     background-position: 0;
     background-repeat: no-repeat;
     padding-left: 20px;
+    cursor: pointer;
 }
 
 .sidebarHeaderOpened {
@@ -608,6 +609,7 @@ input.navigationRenameInput:hover {
     background-position: 0;
     background-repeat: no-repeat;
     padding-left: 20px;
+    cursor: pointer;
 }
 
 .sidebarPointer {
