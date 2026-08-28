@@ -716,14 +716,18 @@ Object.assign(OCA.Analytics.Datasource = {
             return false;
         }
 
-        const rawOptions = templateOption.placeholder.split('/').filter(option => option !== '');
+        // Preserve slashes in labels by splitting only before the next table or view ID.
+        const rawOptions = templateOption.placeholder
+            .replace(/\/$/, '')
+            .split(/\/(?=\d+(?::\d+)?-)/)
+            .filter(option => option !== '');
         const parsedOptions = [];
         let hasView = false;
 
         for (const rawOption of rawOptions) {
             const separator = rawOption.indexOf('-');
             if (separator <= 0) {
-                return false;
+                continue;
             }
 
             const value = rawOption.substring(0, separator);
@@ -731,7 +735,7 @@ Object.assign(OCA.Analytics.Datasource = {
             const viewMatch = value.match(/^(\d+):(\d+)$/);
             const tableMatch = value.match(/^\d+$/);
             if (!tableMatch && !viewMatch) {
-                return false;
+                continue;
             }
 
             parsedOptions.push({
