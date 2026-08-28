@@ -11,6 +11,8 @@
     "Edit file name" : "Modifier le nom du fichier",
     "File name" : "Nom du fichier",
     "Keep the selected path and replace parts of the file name with text variables, for example report_%today%(Y-m-d).csv. The variable is resolved when the data load runs. See the {linkstart}Wiki{linkend}." : "Conservez le chemin sélectionné et remplacez certaines parties du nom de fichier par des variables de texte, par exemple rapport_%today%(Y-m-d).csv. La variable est résolue lors de l’exécution du chargement de données. Consultez le {linkstart}wiki{linkend}.",
+    "Entire table" : "Tableau entier",
+    "Shared views" : "Vues partagées",
     "Column Picker" : "Sélecteur de colonnes",
     "Parameter missing" : "Paramètre maquant",
     "Custom Column" : "Colonne personnalisée",
