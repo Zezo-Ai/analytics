@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.8.2 - 2026-08-28
+### Fixed
+- Update the browser title when selecting a panorama.
+
 ## 6.8.1 - 2026-08-27
 ### Fixed
 - Restore visualizations on Nextcloud 35 without relying on the removed global Underscore library.

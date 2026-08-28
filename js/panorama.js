@@ -321,6 +321,7 @@ Object.assign(OCA.Analytics.Panorama = {
 
         // set the main header
         document.getElementById('panoramaHeader').innerText = OCA.Analytics.currentPanorama.name;
+        document.title = OCA.Analytics.currentPanorama.name + ' - ' + OCA.Analytics.initialDocumentTitle;
 
         //go to first page or to a dedicated one, if required
         if (targetPage) {
