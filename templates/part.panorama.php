@@ -121,7 +121,6 @@
         align-items: center;
         display: flex;
         justify-content: center;
-        cursor: pointer;
     }
 
     .overlay.active {

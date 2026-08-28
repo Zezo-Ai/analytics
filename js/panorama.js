@@ -518,15 +518,15 @@ Object.assign(OCA.Analytics.Panorama = {
 
         flexItem.appendChild(overlay);
 
-        overlay.addEventListener('click', function (evt) {
+        overlayText.addEventListener('click', function () {
             // Remove the active state from any previous flex-item
             OCA.Analytics.Panorama.resetEditOverlays();
 
             // indicate now active overlay
-            evt.currentTarget.classList.add('active');
-            evt.currentTarget.firstChild.innerText = t('analytics', 'choose the content');
+            overlay.classList.add('active');
+            overlayText.innerText = t('analytics', 'choose the content');
 
-            OCA.Analytics.Panorama.showWidgetContentSelector(evt.currentTarget.dataset.itemId); // Position the menu items in a circle
+            OCA.Analytics.Panorama.showWidgetContentSelector(overlay.dataset.itemId); // Position the menu items in a circle
         });
 
         if (isActive) {
@@ -636,7 +636,7 @@ Object.assign(OCA.Analytics.Panorama = {
         OCA.Analytics.Filter.toggleSaveButtonDisplay();
     },
 
-    // show the flower style content selector menu when an overlay is clicked
+    // show the flower style content selector menu when the edit prompt is clicked
     showWidgetContentSelector: function (itemId) {
         document.getElementById('editMenuContainer').style.display = 'block';
         const menu = document.getElementById('editMenu');
