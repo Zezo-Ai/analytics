@@ -314,7 +314,7 @@ OCA.Analytics.Notification = {
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
             + '<br><div class="analyticsDialogButtonrow">'
-            + '<a class="button" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
+            + '<a class="button analyticsSecondary" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
             + '<button type="button" class="button analyticsPrimary" id="analyticsDialogBtnGo">' + t('analytics', 'OK') + '</button>'
             + '</div></div>'
         );
@@ -365,14 +365,14 @@ OCA.Analytics.Notification = {
             + '<div class="analyticsDialogButtonrow">'
             + (
                 dialogOptions.leadingAction
-                    ? '<a class="button analyticsDialogButtonLeading'
+                    ? '<a class="button analyticsSecondary analyticsDialogButtonLeading'
                     + (dialogOptions.leadingAction.className ? ' ' + dialogOptions.leadingAction.className : '')
                     + '" id="analyticsDialogBtnLeading">'
                     + dialogOptions.leadingAction.label
                     + '</a>'
                     : ''
             )
-            + '<a class="button" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
+            + '<a class="button analyticsSecondary" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
             + '<a class="button analyticsPrimary" id="analyticsDialogBtnGo">' + t('analytics', 'OK') + '</a>'
             + '</div></div>'
         );

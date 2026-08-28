@@ -144,14 +144,14 @@
     </div>
     <br>
     <div class="sidebarButtonRow">
-        <button id="sidebarReportUpdateButton" type="button" class="analyticsPrimary">
-			<?php p($l->t('Update')); ?>
-        </button>
-        <button id="sidebarReportDeleteButton" type="button">
+        <button id="sidebarReportDeleteButton" type="button" class="analyticsSecondary">
 			<?php p($l->t('Delete')); ?>
         </button>
-        <button id="sidebarReportExportButton" type="button">
+        <button id="sidebarReportExportButton" type="button" class="analyticsSecondary">
 			<?php p($l->t('Export')); ?>
+        </button>
+        <button id="sidebarReportUpdateButton" type="button" class="analyticsPrimary">
+			<?php p($l->t('Update')); ?>
         </button>
     </div>
 
@@ -375,7 +375,7 @@
         <div style="display: table-row;">
             <div style="display: table-cell;"><?php p($l->t('Manual index update')); ?></div>
             <div style="display: table-cell; width: 200px;">
-                <button id="sidebarDatasetAiUpdateButton" type="button">
+                <button id="sidebarDatasetAiUpdateButton" type="button" class="analyticsSecondary">
 					<?php p($l->t('Update')); ?>
                 </button>
             </div>
@@ -383,11 +383,11 @@
     </div>
     <br>
     <div class="sidebarButtonRow" style="width:100%;">
+        <button id="sidebarDatasetDeleteButton" type="button" class="analyticsSecondary">
+			<?php p($l->t('Delete')); ?>
+        </button>
         <button id="sidebarDatasetUpdateButton" type="button" class="analyticsPrimary">
 			<?php p($l->t('Update')); ?>
-        </button>
-        <button id="sidebarDatasetDeleteButton" type="button">
-			<?php p($l->t('Delete')); ?>
         </button>
     </div>
 </template>
@@ -424,11 +424,11 @@
         </div>
         <br>
         <div class="sidebarButtonRow">
+            <button id="deleteDataButton" type="button" class="analyticsSecondary">
+				<?php p($l->t('Delete data')); ?>
+            </button>
             <button id="updateDataButton" type="button" class="analyticsPrimary">
 				<?php p($l->t('Save data')); ?>
-            </button>
-            <button id="deleteDataButton" type="button">
-				<?php p($l->t('Delete data')); ?>
             </button>
         </div>
         <br>
@@ -439,10 +439,10 @@
 			p($l->t('Import')); ?></h3></div>
     <div id="dataImportSection" style="display: none; width: 100%; max-width: 500px;">
         <div class="sidebarButtonRow">
-            <button id="importDataFileButton" type="button">
+            <button id="importDataFileButton" type="button" class="analyticsSecondary">
 				<?php p($l->t('From file')); ?>
             </button>
-            <button id="importDataClipboardButton" type="button">
+            <button id="importDataClipboardButton" type="button" class="analyticsSecondary">
 				<?php p($l->t('From clipboard')); ?>
             </button>
         </div>
@@ -450,7 +450,7 @@
         <textarea id="importDataClipboardText" rows="5" cols="150" hidden></textarea>
         <br>
         <div class="sidebarButtonRow">
-            <button id="importDataClipboardButtonGo" type="button" hidden>
+            <button id="importDataClipboardButtonGo" type="button" class="analyticsSecondary" hidden>
 				<?php // TRANSLATORS Noun shown in a button
 				p($l->t('Import')); ?>
             </button>
@@ -477,7 +477,7 @@
                                          class="sidebarPointer"><?php p($l->t('Data load')); ?></h3></div>
     <div id="dataAdvancedSection" style="display: none; width: 100%; max-width: 500px;">
         <div class="sidebarButtonRow">
-            <button id="advancedButton" type="button">
+            <button id="advancedButton" type="button" class="analyticsSecondary">
 				<?php p($l->t('Advanced configuration')); ?>
             </button>
         </div>
@@ -539,11 +539,11 @@
     </div>
     <br>
     <div class="sidebarButtonRow">
+        <button id="thresholdCreateNewButton" type="button" class="analyticsSecondary">
+			<?php p($l->t('Notification for new records')); ?>
+        </button>
         <button id="thresholdCreateButton" type="button" class="analyticsPrimary" data-id="">
 			<?php p($l->t('Save threshold')); ?>
-        </button>
-        <button id="thresholdCreateNewButton" type="button" class="secondary">
-			<?php p($l->t('Notification for new records')); ?>
         </button>
     </div>
     <br>
@@ -628,11 +628,11 @@
                 </div>
                 <div id="dataloadDetailButtons" hidden class="sidebarButtonRow">
                     <button id="dataloadDeleteButton" style="padding: 15px;" title="<?php p($l->t('Delete')); ?>"
-                            class="icon-delete"></button>
+                            class="icon-delete analyticsSecondary"></button>
                     <button id="dataloadCopyButton" style="padding: 15px;" title="<?php p($l->t('Copy')); ?>"
-                            class="icon-analytics-copy"></button>
+                            class="icon-analytics-copy analyticsSecondary"></button>
                     <button id="dataloadUpdateButton" style="padding: 15px;" title="<?php p($l->t('Update')); ?>"
-                            class="icon-checkmark"></button>
+                            class="icon-checkmark analyticsPrimary"></button>
                 </div>
             </div>
         </div>
@@ -642,7 +642,7 @@
         <div style="width: 24%;">
             <div class="dataloadHeader"><?php p($l->t('Execution')); ?></div>
             <div id="dataloadRun" hidden>
-                <button id="dataloadExecuteButton"><?php p($l->t('Load now')); ?></button>
+                <button id="dataloadExecuteButton" class="analyticsPrimary"><?php p($l->t('Load now')); ?></button>
                 <input type="checkbox" id="testrunCheckbox" class="checkbox" checked><label
                         for="testrunCheckbox"><?php p($l->t('Test run')); ?></label>
                 <br><br>
@@ -907,7 +907,7 @@
                         <div class="tableOptionsCalculatedColumnsEditorFieldValue">
                             <div class="tableOptionsCalculatedColumnsSourcePicker">
                                 <select id="tableOptionsCalculatedColumnsSourceSelect" class="optionsInput"></select>
-                                <button type="button" id="tableOptionsCalculatedColumnsSourceAdd"><?php p($l->t('Add source column')); ?></button>
+                                <button type="button" id="tableOptionsCalculatedColumnsSourceAdd" class="analyticsSecondary"><?php p($l->t('Add source column')); ?></button>
                             </div>
                         </div>
                     </div>
@@ -933,10 +933,10 @@
                 </div>
 
                 <div class="analyticsDialogButtonrow tableOptionsCalculatedColumnsEditorActions">
-                    <button type="button" id="tableOptionsCalculatedColumnsDelete" class="button analyticsDialogButtonLeading" hidden>
+                    <button type="button" id="tableOptionsCalculatedColumnsDelete" class="button analyticsSecondary analyticsDialogButtonLeading" hidden>
                         <?php p($l->t('Remove calculated column')); ?>
                     </button>
-                    <button type="button" id="tableOptionsCalculatedColumnsCancel" class="button"><?php p($l->t('Cancel')); ?></button>
+                    <button type="button" id="tableOptionsCalculatedColumnsCancel" class="button analyticsSecondary"><?php p($l->t('Cancel')); ?></button>
                     <button type="button" id="tableOptionsCalculatedColumnsSave" class="button analyticsPrimary"><?php p($l->t('Save')); ?></button>
                 </div>
             </div>
@@ -945,7 +945,7 @@
         <div id="tableOptionsCalculatedColumnsPanel">
             <div id="tableOptionsCalculatedColumnsList" class="tableOptionsCalculatedColumnsList"></div>
             <div class="sidebarButtonRow">
-                <button type="button" id="tableOptionsCalculatedColumnsAdd">
+                <button type="button" id="tableOptionsCalculatedColumnsAdd" class="analyticsSecondary">
                     <span class="icon-add"></span>
                     <span><?php p($l->t('Add calculated column')); ?></span>
                 </button>

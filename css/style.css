@@ -1533,23 +1533,45 @@ div.dt-container .dt-paging .dt-paging-button {
 }
 
 
-/* primary-style buttons */
+/* Shared action button styles. The important background color overrides
+ * Nextcloud's default button color while preserving icon background images. */
 .analyticsPrimary {
-    background-color: var(--color-primary-element-light);
+    background-color: var(--color-primary-element) !important;
+    color: var(--color-primary-element-text) !important;
+    border-color: var(--color-primary-element);
 }
 
-.analyticsPrimary:hover {
-    background-color: var(--color-primary-element-light-hover);
+.analyticsPrimary:hover,
+.analyticsPrimary:focus,
+.analyticsPrimary:active {
+    background-color: var(--color-primary-element-hover) !important;
+    color: var(--color-primary-element-text) !important;
+    border-color: var(--color-primary-element-hover);
+}
+
+.analyticsSecondary {
+    background-color: var(--color-primary-element-light) !important;
+    color: var(--color-main-text);
+    border-color: var(--color-border);
+}
+
+.analyticsSecondary:hover,
+.analyticsSecondary:focus,
+.analyticsSecondary:active {
+    background-color: var(--color-primary-element-light-hover) !important;
+    border-color: var(--color-border);
 }
 
 div[id^="analytics-content"] .button:not(.analyticsPrimary),
-.analyticsDialogButtonrow .button:not(.analyticsPrimary) {
-    background-color: transparent;
+.analyticsDialogButtonrow .button:not(.analyticsPrimary),
+.sidebarButtonRow > button:not(.analyticsPrimary) {
+    background-color: var(--color-primary-element-light) !important;
 }
 
 div[id^="analytics-content"] .button:not(.analyticsPrimary):hover,
-.analyticsDialogButtonrow .button:not(.analyticsPrimary):hover {
-    background-color: var(--color-background-hover);
+.analyticsDialogButtonrow .button:not(.analyticsPrimary):hover,
+.sidebarButtonRow > button:not(.analyticsPrimary):hover {
+    background-color: var(--color-primary-element-light-hover) !important;
 }
 
 .dropDownList {

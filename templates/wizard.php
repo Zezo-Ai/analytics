@@ -161,7 +161,7 @@
             <div class="description-block">
                 <h3 class="icon-link"><?php p($l->t('Quickstart')); ?></h3>
                 <p><?php p($l->t('Activate a set of demo report to show how Analytics works.')); ?></p>
-                <button id="wizardDemo">
+                <button id="wizardDemo" class="analyticsSecondary">
                     <?php p($l->t('Create Demo')); ?>
                 </button>
             </div>
@@ -440,13 +440,11 @@
                         </div>
                     </div>
                     <div style="display: table-cell;">
+                        <button id="wizardNewCancel" type="button" class="analyticsSecondary">
+                            <?php p($l->t('Cancel')); ?>
+                        </button>
                         <button id="wizardNewCreate" type="button" class="analyticsPrimary">
                             <?php p($l->t('Create')); ?>
-                        </button>
-                    </div>
-                    <div style="display: table-cell;">
-                        <button id="wizardNewCancel" type="button">
-                            <?php p($l->t('Cancel')); ?>
                         </button>
                     </div>
                 </div>
@@ -470,11 +468,11 @@
                     </div>
                     <div style="display: table-cell;">
                         <br>
+                        <button id="wizardNewCancel" type="button" class="analyticsSecondary">
+                            <?php p($l->t('Cancel')); ?>
+                        </button>
                         <button id="wizardNewCreate" type="button" class="analyticsPrimary">
                             <?php p($l->t('Create')); ?>
-                        </button>
-                        <button id="wizardNewCancel" type="button">
-                            <?php p($l->t('Cancel')); ?>
                         </button>
                     </div>
                 </div>

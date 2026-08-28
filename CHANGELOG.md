@@ -2,6 +2,7 @@
 
 ## 6.8.2 - 2026-08-28
 ### Fixed
+- Normalize primary and secondary button colors and action ordering across screens and dialogs.
 - Update the browser title when selecting a panorama.
 
 ## 6.8.1 - 2026-08-27

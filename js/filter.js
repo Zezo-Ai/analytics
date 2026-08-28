@@ -732,7 +732,7 @@ OCA.Analytics.Filter = {
         const resetButton = document.createElement('button');
         resetButton.type = 'button';
         resetButton.id = 'tableOptionsResetState';
-        resetButton.className = 'button';
+        resetButton.className = 'button analyticsSecondary';
         resetButton.textContent = t('analytics', 'Reset table');
         resetButton.addEventListener('click', OCA.Analytics.Filter.processTableOptionsReset);
 
