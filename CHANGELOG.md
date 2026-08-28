@@ -6,6 +6,7 @@
 - Update the browser title when selecting a panorama.
 - Preserve slashes in Nextcloud Tables names and ignore malformed entries in the grouped data source selector.
 - Open the panorama content selector only from the edit prompt instead of the entire cell.
+- Close open options and navigation menus when clicking outside them.
 
 ## 6.8.1 - 2026-08-27
 ### Fixed

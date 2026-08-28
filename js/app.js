@@ -169,6 +169,7 @@ Object.assign(OCA.Analytics.Core = {
         document.getElementById('saveIcon').addEventListener('click', OCA.Analytics.Filter.handleSaveButton);
 
         document.getElementById('optionsMenuIcon').addEventListener('click', OCA.Analytics.Core.toggleOptionsMenu);
+        document.addEventListener('click', OCA.Analytics.Core.handleMenusDocumentClick);
     },
 
     toggleOptionsMenu: function () {
@@ -183,6 +184,24 @@ Object.assign(OCA.Analytics.Core = {
         document.getElementById('optionsMenuSubAnalysis').style.setProperty('display', 'none', 'important');
         document.getElementById('optionsMenuSubRefresh').style.setProperty('display', 'none', 'important');
         document.getElementById('optionsMenuSubTranslate').style.setProperty('display', 'none', 'important');
+    },
+
+    /**
+     * Close open options and navigation menus when clicking outside them.
+     *
+     * @param {MouseEvent} evt The document click event
+     */
+    handleMenusDocumentClick: function (evt) {
+        const target = evt.target instanceof Element ? evt.target : evt.target?.parentElement;
+        if (!target || target.closest('#optionsMenuIcon, #newReportButton, #infoBoxReport, .newMenuToggle, .menuButton')) {
+            return;
+        }
+
+        document.querySelectorAll('#optionsMenu.open, .app-navigation-entry-menu.open').forEach(menu => {
+            if (!menu.contains(target)) {
+                menu.classList.remove('open');
+            }
+        });
     },
 
     /**

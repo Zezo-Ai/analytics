@@ -249,6 +249,7 @@ OCA.Analytics.Navigation = {
         }
 
         let li = document.createElement('li');
+        li.classList.add('newMenuToggle');
         li.innerHTML = '<div class="infoBox" style="margin-top: 50px;">' +
             '<img src="' + OC.imagePath('analytics', 'infoReport') + '" alt="info">\n' +
             '<div class="infoBoxHeader">' + text + '</div>\n';
