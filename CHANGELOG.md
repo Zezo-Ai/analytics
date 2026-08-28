@@ -2,6 +2,7 @@
 
 ## 6.8.2 - 2026-08-28
 ### Fixed
+- Ask for confirmation before deleting the current panorama page.
 - Normalize primary and secondary button colors and action ordering across screens and dialogs.
 - Update the browser title when selecting a panorama.
 - Preserve slashes in Nextcloud Tables names and ignore malformed entries in the grouped data source selector.

@@ -1002,12 +1002,19 @@ Object.assign(OCA.Analytics.Panorama = {
     },
 
     handleDeletePageButton: function () {
-        OCA.Analytics.currentPanorama.pages.splice(OCA.Analytics.currentPage, 1);
-        OCA.Analytics.Panorama.getPanorama();
-        OCA.Analytics.Panorama.updateNavButtons();
-        // show the save icon
-        OCA.Analytics.unsavedChanges = true;
-        OCA.Analytics.Filter.toggleSaveButtonDisplay();
+        OCA.Analytics.Notification.confirm(
+            t('analytics', 'Delete current page'),
+            t('analytics', 'Are you sure?'),
+            function () {
+                OCA.Analytics.currentPanorama.pages.splice(OCA.Analytics.currentPage, 1);
+                OCA.Analytics.Panorama.getPanorama();
+                OCA.Analytics.Panorama.updateNavButtons();
+                // show the save icon
+                OCA.Analytics.unsavedChanges = true;
+                OCA.Analytics.Filter.toggleSaveButtonDisplay();
+                OCA.Analytics.Notification.dialogClose();
+            }
+        );
     },
 
     handleDeletePanoramaButton: function (evt) {
