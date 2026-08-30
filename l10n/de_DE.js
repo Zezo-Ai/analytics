@@ -171,6 +171,7 @@ OC.L10N.register(
     "select to edit" : "Auswählen zum Bearbeiten",
     "choose the content" : "Den Inhalt auswählen",
     "Show legend" : "Legende anzeigen",
+    "The selected picture is not available" : "Das ausgewählte Bild ist nicht verfügbar",
     "Delete current page" : "Aktuelle Seite löschen",
     "All data will be deleted!" : "Alle Daten werden gelöscht!",
     "Select the location for the PDF file" : "Speicherort für die PDF-Datei auswählen",
