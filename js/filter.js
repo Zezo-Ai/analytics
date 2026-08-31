@@ -1908,9 +1908,35 @@ OCA.Analytics.Filter = {
                     dimensionSelect.options.add(new Option(dim, idx));
                 });
 
+                OCA.Analytics.Visualization.getCalculatedColumns(
+                    OCA.Analytics.currentReportData.options.tableoptions || {}
+                ).forEach((calculation, index) => {
+                    if (!OCA.Analytics.Visualization.isCalculatedColumnRenderable(calculation)) {
+                        return;
+                    }
+                    dimensionSelect.options.add(new Option(
+                        calculation.title || t('analytics', 'Calculated column'),
+                        OCA.Analytics.Visualization.thresholdCalculatedColumnOffset + index
+                    ));
+                });
+
                 document.getElementById('thresholdValue').dataset.dropdownlistindex = dimensionSelect.selectedIndex;
                 dimensionSelect.addEventListener('change', function (evt) {
-                    document.getElementById('thresholdValue').dataset.dropdownlistindex = evt.target.value;
+                    const valueInput = document.getElementById('thresholdValue');
+                    const isCalculatedColumn = parseInt(evt.target.value, 10)
+                        >= OCA.Analytics.Visualization.thresholdCalculatedColumnOffset;
+                    const notificationOption = document.querySelector('#thresholdSeverity option[value="1"]');
+                    if (notificationOption) {
+                        notificationOption.disabled = isCalculatedColumn;
+                    }
+                    if (isCalculatedColumn) {
+                        delete valueInput.dataset.dropdownlistindex;
+                        if (document.getElementById('thresholdSeverity').value === '1') {
+                            document.getElementById('thresholdSeverity').value = '4';
+                        }
+                    } else {
+                        valueInput.dataset.dropdownlistindex = evt.target.value;
+                    }
                 });
                 document.getElementById('thresholdValue').addEventListener('click', OCA.Analytics.Report.showDropDownList);
                 document.getElementById('thresholdCreateButton').addEventListener('click', OCA.Analytics.Threshold.handleThresholdCreateButton);

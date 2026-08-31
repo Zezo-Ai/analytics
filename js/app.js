@@ -1704,7 +1704,7 @@ Object.assign(OCA.Analytics.Threshold = {
         let text = document.createElement('div');
         text.classList.add('thresholdText');
 
-        let dimension = OCA.Analytics.currentReportData.header[data.dimension];
+        let dimension = OCA.Analytics.Visualization.getThresholdColumnLabel(data.dimension);
         text.innerText = dimension + ' ' + data.option + ' ' + data.value;
         text.addEventListener('click', function () {
             const row = this.parentNode;

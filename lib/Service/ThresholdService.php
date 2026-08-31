@@ -16,6 +16,8 @@ use Psr\Log\LoggerInterface;
 use OCP\IL10N;
 
 class ThresholdService {
+	private const CALCULATED_COLUMN_DIMENSION_OFFSET = 10000;
+
 	private $logger;
 	private $ThresholdMapper;
 	private $ReportMapper;
@@ -213,6 +215,10 @@ class ThresholdService {
 				continue;
 			}
 			$dimIndex = intval($threshold['dimension']);
+			// Calculated columns are evaluated only in the browser-rendered table.
+			if ($dimIndex >= self::CALCULATED_COLUMN_DIMENSION_OFFSET) {
+				continue;
+			}
 			switch ($dimIndex) {
 				case 0:
 					$compare = $dimension1;

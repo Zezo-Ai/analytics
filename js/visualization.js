@@ -1163,6 +1163,22 @@ OCA.Analytics.Visualization = {
         }));
     },
 
+    // Calculated columns only exist in the browser-rendered table. Keep their
+    // threshold dimensions distinct from source-data column indexes.
+    thresholdCalculatedColumnOffset: 10000,
+
+    getThresholdColumnLabel: function (dimension) {
+        const dimensionIndex = parseInt(dimension, 10);
+        if (dimensionIndex >= this.thresholdCalculatedColumnOffset) {
+            const calculationIndex = dimensionIndex - this.thresholdCalculatedColumnOffset;
+            const calculation = this.getCalculatedColumns(
+                OCA.Analytics.currentReportData.options.tableoptions || {}
+            )[calculationIndex];
+            return calculation?.title || t('analytics', 'Calculated column');
+        }
+        return OCA.Analytics.currentReportData.header[dimensionIndex];
+    },
+
     getSafeColReorder: function (tableOptions, columnCount, fallback = true) {
         const order = tableOptions?.colReorder?.order;
         const valid = Array.isArray(order)
@@ -1191,7 +1207,16 @@ OCA.Analytics.Visualization = {
                 continue;
             }
 
-            const displayDimIndex = OCA.Analytics.Visualization.resolveThresholdDisplayColumnIndex(sourceDimIndex, tableOptions);
+            let displayDimIndex;
+            if (sourceDimIndex >= OCA.Analytics.Visualization.thresholdCalculatedColumnOffset) {
+                const calculationIndex = sourceDimIndex - OCA.Analytics.Visualization.thresholdCalculatedColumnOffset;
+                const calculations = tableOptions._analyticsRenderedCalculatedColumns || [];
+                displayDimIndex = calculationIndex >= 0 && calculationIndex < calculations.length
+                    ? data.length - calculations.length + calculationIndex
+                    : -1;
+            } else {
+                displayDimIndex = OCA.Analytics.Visualization.resolveThresholdDisplayColumnIndex(sourceDimIndex, tableOptions);
+            }
             if (displayDimIndex === -1) {
                 continue;
             }

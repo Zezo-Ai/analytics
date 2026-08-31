@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Allow thresholds to target calculated table columns.
+
 ## 6.8.2 - 2026-08-28
 ### Fixed
 - Ask for confirmation before deleting the current panorama page.
