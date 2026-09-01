@@ -7,6 +7,7 @@
 - Mark the Analysis menu when aggregation or disaggregation functions are active.
 
 ### Fixed
+- Export panoramas using a consistent light theme in PDFs.
 - Keep the report menu open while using its hover-based second-level options.
 - Close the navigation settings popover when clicking outside it.
 - Use the standard Analytics dialog for choosing a panorama report.

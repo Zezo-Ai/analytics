@@ -6,6 +6,7 @@
  */
 
 /** global: OC */
+/** global: Chart */
 
 'use strict';
 
@@ -196,6 +197,90 @@ Object.assign(OCA.Analytics.Panorama = {
                     },
                 }
             },
+        };
+    },
+
+    /**
+     * Temporarily render Panorama content with print-friendly light colors.
+     *
+     * Chart.js paints text into its canvas, so CSS theme variables alone do not
+     * affect an already-rendered chart. Keep the original chart options to put
+     * the active UI theme back after the PDF capture finishes.
+     *
+     * @return {Function} Restore the active UI theme
+     */
+    applyPdfLightTheme: function () {
+        const panorama = document.getElementById('analytics-content-panorama');
+        const hadLightTheme = panorama.classList.contains('analyticsPdfLightTheme');
+        const chartStates = [];
+
+        panorama.classList.add('analyticsPdfLightTheme');
+
+        if (typeof Chart !== 'undefined') {
+            panorama.querySelectorAll('canvas').forEach(canvas => {
+                const chart = Chart.getChart(canvas);
+                if (!chart) {
+                    return;
+                }
+
+                const state = {
+                    chart: chart,
+                    color: chart.options.color,
+                    scales: [],
+                    legendColor: chart.options.plugins?.legend?.labels?.color,
+                };
+
+                chart.options.color = '#222222';
+                Object.values(chart.options.scales || {}).forEach(scale => {
+                    const scaleState = {
+                        scale: scale,
+                        ticksColor: scale.ticks?.color,
+                        gridColor: scale.grid?.color,
+                        borderColor: scale.border?.color,
+                    };
+                    state.scales.push(scaleState);
+
+                    if (scale.ticks) {
+                        scale.ticks.color = '#222222';
+                    }
+                    if (scale.grid) {
+                        scale.grid.color = 'rgba(34, 34, 34, 0.14)';
+                    }
+                    if (scale.border) {
+                        scale.border.color = 'rgba(34, 34, 34, 0.14)';
+                    }
+                });
+                if (chart.options.plugins?.legend?.labels) {
+                    chart.options.plugins.legend.labels.color = '#222222';
+                }
+                chart.update('none');
+                chartStates.push(state);
+            });
+        }
+
+        return function () {
+            chartStates.forEach(state => {
+                state.chart.options.color = state.color;
+                state.scales.forEach(scaleState => {
+                    if (scaleState.scale.ticks) {
+                        scaleState.scale.ticks.color = scaleState.ticksColor;
+                    }
+                    if (scaleState.scale.grid) {
+                        scaleState.scale.grid.color = scaleState.gridColor;
+                    }
+                    if (scaleState.scale.border) {
+                        scaleState.scale.border.color = scaleState.borderColor;
+                    }
+                });
+                if (state.chart.options.plugins?.legend?.labels) {
+                    state.chart.options.plugins.legend.labels.color = state.legendColor;
+                }
+                state.chart.update('none');
+            });
+
+            if (!hadLightTheme) {
+                panorama.classList.remove('analyticsPdfLightTheme');
+            }
         };
     },
 
@@ -1150,6 +1235,8 @@ Object.assign(OCA.Analytics.Panorama = {
 
         let headerText = document.getElementById('panoramaHeader').textContent;
 
+        const restorePdfLightTheme = OCA.Analytics.Panorama.applyPdfLightTheme();
+
         // hide the subheaders. will only take the text later
         const elements = document.querySelectorAll('.panoramaSubHeaderRow');
         elements.forEach(element => {
@@ -1160,32 +1247,25 @@ Object.assign(OCA.Analytics.Panorama = {
         let byAnalyticsImg = document.querySelector('#analytics-content-panorama #byAnalyticsImg');
         let byAnalyticsElement = document.querySelector('#analytics-content-panorama #byAnalytics');
         let byAnalyticsClass = byAnalyticsElement.classList.contains('analyticsFullscreen');
-
-        if (!byAnalyticsClass) {
-            byAnalyticsElement.classList.add('analyticsFullscreen');
-        }
-
-        // Temporarily reset styles
-        byAnalyticsImg.style.width = byAnalyticsImg.naturalWidth + 'px';
-        byAnalyticsImg.style.height = byAnalyticsImg.naturalHeight + 'px';
-        byAnalyticsImg.style.transform = 'none';  // Remove any CSS transforms
-
-        // set the grey background for export
-        document.querySelectorAll('.flex-item').forEach(el => {
-            el.style.backgroundColor = '#f5f5f5'; // Set background-color
-        });
-
-        let byAnalyticsCanvas = await html2canvas(byAnalyticsImg, {scale: 1});
-        let byAnalyticsRawData = byAnalyticsCanvas.toDataURL('image/png');
-
-        // restore the previous status
-        byAnalyticsImg.style.width = '33px';
-        byAnalyticsImg.style.height = '33px';
-        if (!byAnalyticsClass) {
-            byAnalyticsElement.classList.remove('analyticsFullscreen');
-        }
+        const byAnalyticsStyles = {
+            width: byAnalyticsImg.style.width,
+            height: byAnalyticsImg.style.height,
+            transform: byAnalyticsImg.style.transform,
+        };
 
         try {
+            if (!byAnalyticsClass) {
+                byAnalyticsElement.classList.add('analyticsFullscreen');
+            }
+
+            // Temporarily reset styles for the branding image capture.
+            byAnalyticsImg.style.width = byAnalyticsImg.naturalWidth + 'px';
+            byAnalyticsImg.style.height = byAnalyticsImg.naturalHeight + 'px';
+            byAnalyticsImg.style.transform = 'none';
+
+            let byAnalyticsCanvas = await html2canvas(byAnalyticsImg, {scale: 1});
+            let byAnalyticsRawData = byAnalyticsCanvas.toDataURL('image/png');
+
             OCA.Analytics.Notification.htmlDialogUpdateAdd('header captured');
 
             // Set PDF metadata
@@ -1267,17 +1347,6 @@ Object.assign(OCA.Analytics.Panorama = {
                 OCA.Analytics.Notification.htmlDialogUpdateAdd(t('analytics', 'page {pageCount} added to pdf', {pageCount: index}));
             }
 
-            // adding the subheaders again
-            const elements = document.querySelectorAll('.panoramaSubHeaderRow');
-            elements.forEach(element => {
-                element.classList.remove('analyticsFullscreen');
-            });
-
-            // reset the grey background for export
-            document.querySelectorAll('.flex-item').forEach(el => {
-                el.style.backgroundColor = '';
-            });
-
             OCA.Analytics.Notification.htmlDialogUpdateAdd(t('analytics', 'creating pdf'));
 
             // Get the current date
@@ -1302,6 +1371,17 @@ Object.assign(OCA.Analytics.Panorama = {
             OCA.Analytics.Notification.dialogClose();
         } catch (error) {
             OCA.Analytics.Notification.htmlDialogUpdateAdd("Error generating PDF: ", error);
+        } finally {
+            elements.forEach(element => {
+                element.classList.remove('analyticsFullscreen');
+            });
+            byAnalyticsImg.style.width = byAnalyticsStyles.width;
+            byAnalyticsImg.style.height = byAnalyticsStyles.height;
+            byAnalyticsImg.style.transform = byAnalyticsStyles.transform;
+            if (!byAnalyticsClass) {
+                byAnalyticsElement.classList.remove('analyticsFullscreen');
+            }
+            restorePdfLightTheme();
         }
     },
 

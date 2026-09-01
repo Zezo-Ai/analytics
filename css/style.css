@@ -2179,6 +2179,19 @@ div[id^="analytics-content"] .button:not(.analyticsPrimary):hover,
 
 /* === Panorama === */
 
+#analytics-content-panorama.analyticsPdfLightTheme {
+    --color-main-background: #f5f5f5;
+    --color-main-text: #222222;
+    --color-text-maxcontrast: #222222;
+    --color-text-light: #555555;
+    --color-text-lighter: #767676;
+    --color-background-hover: #e8e8e8;
+    --color-border: #d1d1d1;
+    --color-border-dark: #b3b3b3;
+    --color-box-shadow: rgba(0, 0, 0, 0.12);
+    color: #222222;
+}
+
 .panoramaSubHeader {
     margin-left: 15px !important;
 }
