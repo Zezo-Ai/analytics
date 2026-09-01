@@ -165,7 +165,7 @@ OCA.Analytics.Navigation = {
         let navigationEntrydiv = document.createElement('div');
         navigationEntrydiv.classList.add('app-navigation-entry');
         let a = document.createElement('a');
-        a.classList.add('icon-add', 'svg');
+        a.classList.add('icon-add', 'svg', 'analytics-navigation-icon');
         a.id = 'newReportButton';
         a.addEventListener('click', OCA.Analytics.Navigation.handleNewButton);
         a.innerText = t('analytics', 'New');
@@ -182,7 +182,7 @@ OCA.Analytics.Navigation = {
         let navigationEntrydiv = document.createElement('div');
         navigationEntrydiv.classList.add('app-navigation-entry');
         let a = document.createElement('a');
-        a.classList.add('icon-analytics-settings');
+        a.classList.add('icon-analytics-settings', 'analytics-navigation-icon');
         a.id = 'settingsButton';
         a.addEventListener('click', OCA.Analytics.Navigation.handleSettingsButton);
         a.innerText = t('analytics', 'Settings');
@@ -267,7 +267,7 @@ OCA.Analytics.Navigation = {
             let a = document.createElement('a');
             a.id = id;
             a.setAttribute('href', href);
-            a.classList.add(className);
+            a.classList.add(className, 'analytics-navigation-icon');
             a.innerText = text;
             if (eventHandler) a.addEventListener('click', eventHandler);
 
@@ -298,7 +298,7 @@ OCA.Analytics.Navigation = {
         let div = document.createElement('div');
         div.classList.add('app-navigation-entry');
         let a = document.createElement('a');
-        a.classList.add(icon, 'svg');
+        a.classList.add(icon, 'svg', 'analytics-navigation-icon');
         a.innerText = title;
         a.setAttribute('href', '#');
         if (closable) {
@@ -362,8 +362,7 @@ OCA.Analytics.Navigation = {
             typeIcon = 'icon-shared';
         }
 
-        a.classList.add(typeIcon);
-        a.classList.add('svg');
+        a.classList.add(typeIcon, 'svg', 'analytics-navigation-icon');
 
         // also add items to the navigation menu
         a.innerText = data['name'];

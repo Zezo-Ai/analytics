@@ -122,6 +122,72 @@ button, .button {
     z-index: 100;
 }
 
+#app-navigation .analytics-navigation-icon {
+    position: relative;
+    background-image: none !important;
+}
+
+#app-navigation .analytics-navigation-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    background-color: currentColor;
+    mask-image: var(--analytics-navigation-icon);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 18px 18px;
+    -webkit-mask-image: var(--analytics-navigation-icon);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 18px 18px;
+    transform: translateY(-50%);
+}
+
+#app-navigation .analytics-navigation-menu-icon {
+    background-color: currentColor;
+    background-image: none !important;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: text-bottom;
+    mask-image: var(--analytics-navigation-icon);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 16px 16px;
+    -webkit-mask-image: var(--analytics-navigation-icon);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 16px 16px;
+}
+
+#app-navigation .icon-analytics-overview { --analytics-navigation-icon: url(../img/overview.svg); }
+#app-navigation .icon-analytics-star { --analytics-navigation-icon: url(../img/star.svg); }
+#app-navigation .icon-analytics-panorama { --analytics-navigation-icon: url(../img/panorama.svg); }
+#app-navigation .icon-analytics-report { --analytics-navigation-icon: url(../img/report.svg); }
+#app-navigation .icon-analytics-dataset { --analytics-navigation-icon: url(../img/dataset.svg); }
+#app-navigation .icon-analytics-settings { --analytics-navigation-icon: url(../img/settings.svg); }
+#app-navigation .icon-analytics-import { --analytics-navigation-icon: url(../img/download.svg); }
+#app-navigation .icon-analytics-rename { --analytics-navigation-icon: url(../img/rename.svg); }
+#app-navigation .icon-folder { --analytics-navigation-icon: var(--icon-folder-dark); }
+#app-navigation .icon-shared { --analytics-navigation-icon: var(--icon-shared-dark); }
+#app-navigation .icon-rename { --analytics-navigation-icon: url(../img/rename.svg); }
+#app-navigation .icon-add { --analytics-navigation-icon: url(../img/add.svg); }
+#app-navigation .icon-star,
+#app-navigation .icon-starred { --analytics-navigation-icon: url(../img/star.svg); }
+#app-navigation .icon-share { --analytics-navigation-icon: var(--icon-share-dark); }
+#app-navigation .icon-category-customization { --analytics-navigation-icon: var(--icon-category-customization-dark); }
+#app-navigation .icon-delete { --analytics-navigation-icon: var(--icon-delete-dark); }
+#app-navigation .icon-close { --analytics-navigation-icon: var(--icon-close-dark); }
+
+/* A section uses the same text-colored disclosure arrow when expanded. */
+#app-navigation .collapsible.open > div > .analytics-navigation-icon {
+    --analytics-navigation-icon: var(--icon-triangle-s-dark);
+}
+
 
 #app-navigation .app-navigation-entry-utils {
     flex: 0 1 auto;

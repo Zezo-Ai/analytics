@@ -674,13 +674,13 @@
     <div id="newMenu" class="app-navigation-entry-menu">
         <ul>
             <li><a href="#" id="newMenuReport" data-type="report"><span
-                            class="icon-analytics-report"></span><span><?php p($l->t('Report')); ?></span></a></li>
+                            class="icon-analytics-report analytics-navigation-menu-icon"></span><span><?php p($l->t('Report')); ?></span></a></li>
             <li><a href="#" id="newMenuPanorama" data-type="panorama"><span
-                            class="icon-analytics-panorama"></span><span><?php p($l->t('Panorama')); ?></span></a></li>
+                            class="icon-analytics-panorama analytics-navigation-menu-icon"></span><span><?php p($l->t('Panorama')); ?></span></a></li>
             <li><a href="#" id="newMenuDataset" data-type="dataset"><span
-                            class="icon-analytics-dataset"></span><span><?php p($l->t('Dataset')); ?></span></a></li>
+                            class="icon-analytics-dataset analytics-navigation-menu-icon"></span><span><?php p($l->t('Dataset')); ?></span></a></li>
             <li><a href="#" id="newMenuImport"><span
-                            class="icon-analytics-import"></span><span><?php p($l->t('Import report')); ?></span></a></li>
+                            class="icon-analytics-import analytics-navigation-menu-icon"></span><span><?php p($l->t('Import report')); ?></span></a></li>
         </ul>
     </div>
 </template>
@@ -689,27 +689,27 @@
     <div id="navigationMenu" class="app-navigation-entry-menu">
         <ul>
             <li><a href="#" id="navigationMenuEdit"><span
-                            class="icon-rename"></span><span><?php p($l->t('Basic settings')); ?></span></a></li>
+                            class="icon-rename analytics-navigation-menu-icon"></span><span><?php p($l->t('Basic settings')); ?></span></a></li>
             <li><a href="#" id="navigationMenuRename"><span
-                            class="icon-analytics-rename"></span><span><?php p($l->t('Rename')); ?></span></a></li>
+                            class="icon-analytics-rename analytics-navigation-menu-icon"></span><span><?php p($l->t('Rename')); ?></span></a></li>
             <li><a href="#" id="navigationMenuNewGroup"><span
-                            class="icon-add"></span><span><?php p($l->t('Add to new group')); ?></span></a></li>
+                            class="icon-add analytics-navigation-menu-icon"></span><span><?php p($l->t('Add to new group')); ?></span></a></li>
             <li>
                 <a href="#" id="navigationMenueFavorite">
-                    <span class="icon icon-star"></span>
+                    <span class="icon icon-star analytics-navigation-menu-icon"></span>
                     <span><?php p($l->t('Add to favorites')); ?></span>
                 </a>
             </li>
             <li><a href="#" id="navigationMenuShare"><span
-                            class="icon-share"></span><span><?php p($l->t('Share')); ?></span></a></li>
+                            class="icon-share analytics-navigation-menu-icon"></span><span><?php p($l->t('Share')); ?></span></a></li>
             <li><a href="#" id="navigationMenuAdvanced"><span
-                            class="icon-category-customization"></span><span><?php p($l->t('Dataset maintenance')); ?></span></a>
+                            class="icon-category-customization analytics-navigation-menu-icon"></span><span><?php p($l->t('Dataset maintenance')); ?></span></a>
             </li>
             <li id="navigationMenueSeparator" class="action-separator"></li>
             <li><a href="#" id="navigationMenuDelete"><span
-                            class="icon-delete"></span><span><?php p($l->t('Delete')); ?></span></a></li>
+                            class="icon-delete analytics-navigation-menu-icon"></span><span><?php p($l->t('Delete')); ?></span></a></li>
             <li><a href="#" id="navigationMenuUnshare"><span
-                            class="icon-close"></span><span><?php p($l->t('Unshare')); ?></span></a></li>
+                            class="icon-close analytics-navigation-menu-icon"></span><span><?php p($l->t('Unshare')); ?></span></a></li>
         </ul>
     </div>
 </template>

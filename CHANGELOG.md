@@ -7,6 +7,7 @@
 - Mark the Analysis menu when aggregation or disaggregation functions are active.
 
 ### Fixed
+- Match navigation and navigation-menu icon colors to their labels in light and dark themes.
 - Export panoramas using a consistent light theme in PDFs.
 - Keep the report menu open while using its hover-based second-level options.
 - Close the navigation settings popover when clicking outside it.
