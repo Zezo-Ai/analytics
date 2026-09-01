@@ -85,7 +85,8 @@ Object.assign(OCA.Analytics.ChartOptions, {
 
     setGuiState: function (chartOptions, guiState) {
         const options = this._normalizeParsedOptions(chartOptions);
-        return this._setGuiStateOnOptions(options, guiState);
+        const existingState = this._getGuiStateFromOptions(options);
+        return this._setGuiStateOnOptions(options, {...existingState, ...guiState});
     },
 
     compose: function (defaultOptions, chartOptions, dataOptions) {
@@ -289,10 +290,44 @@ Object.assign(OCA.Analytics.ChartOptions, {
         state.version = this.GUI_VERSION;
         state.model = this._normalizeModel(state.model);
         state.doughnutLabelStyle = this._normalizeDoughnutLabelStyle(state.doughnutLabelStyle);
+        state.aggregationFunctions = this._normalizeAggregationFunctions(state.aggregationFunctions);
         return state;
     },
 
-    _isSecondaryAxisRequired: function (dataOptions) {
+    _normalizeAggregationFunctions: function (functions) {
+        if (!Array.isArray(functions)) {
+            return [];
+        }
+
+        const seen = new Set();
+        return functions.reduce((normalized, selection) => {
+            if (!this._isPlainObject(selection)
+                || !['aggregate', 'disaggregate'].includes(selection.mode)
+                || !Number.isInteger(selection.sourceIndex)
+                || selection.sourceIndex < 0) {
+                return normalized;
+            }
+
+            const key = selection.mode + ':' + selection.sourceIndex;
+            if (seen.has(key)) {
+                return normalized;
+            }
+            seen.add(key);
+
+            const value = {mode: selection.mode, sourceIndex: selection.sourceIndex};
+            if (selection.hidden === true) {
+                value.hidden = true;
+            }
+            normalized.push(value);
+            return normalized;
+        }, []);
+    },
+
+    _isSecondaryAxisRequired: function (dataOptions, guiState) {
+        if (this._normalizeAggregationFunctions(guiState?.aggregationFunctions).length > 0) {
+            return true;
+        }
+
         if (!Array.isArray(dataOptions)) {
             return false;
         }
@@ -310,7 +345,7 @@ Object.assign(OCA.Analytics.ChartOptions, {
             patch.analyticsModel = model;
         }
 
-        this._setByPath(patch, 'scales.secondary.display', this._isSecondaryAxisRequired(dataOptions));
+        this._setByPath(patch, 'scales.secondary.display', this._isSecondaryAxisRequired(dataOptions, guiState));
         return patch;
     },
 

@@ -181,19 +181,17 @@ Object.assign(OCA.Analytics.Core = {
             document.getElementById('optionsMenuMainReport').style.removeProperty('display');
         }
         document.getElementById('optionsMenu').classList.toggle('open');
-        document.getElementById('optionsMenuSubAnalysis').style.setProperty('display', 'none', 'important');
-        document.getElementById('optionsMenuSubRefresh').style.setProperty('display', 'none', 'important');
-        document.getElementById('optionsMenuSubTranslate').style.setProperty('display', 'none', 'important');
+        OCA.Analytics.Report.closeReportSubmenus();
     },
 
     /**
-     * Close open options and navigation menus when clicking outside them.
+     * Close open options, navigation menus, and app settings when clicking outside them.
      *
      * @param {MouseEvent} evt The document click event
      */
     handleMenusDocumentClick: function (evt) {
         const target = evt.target instanceof Element ? evt.target : evt.target?.parentElement;
-        if (!target || target.closest('#optionsMenuIcon, #newReportButton, #infoBoxReport, .newMenuToggle, .menuButton')) {
+        if (!target || target.closest('#optionsMenuIcon, #newReportButton, #infoBoxReport, .newMenuToggle, .menuButton, #settingsButton')) {
             return;
         }
 
@@ -202,6 +200,11 @@ Object.assign(OCA.Analytics.Core = {
                 menu.classList.remove('open');
             }
         });
+
+        const appSettingsContent = document.getElementById('app-settings-content');
+        if (appSettingsContent?.style.display !== 'none' && !target.closest('#app-settings')) {
+            appSettingsContent.style.display = 'none';
+        }
     },
 
     /**

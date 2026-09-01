@@ -1733,6 +1733,13 @@ OCA.Analytics.Visualization = {
             datasets = Object.values(datasets);
         }
 
+        if (chartType !== 'doughnut' && chartType !== 'funnel') {
+            datasets = this.addSavedAggregationFunctions(
+                datasets,
+                guiState.aggregationFunctions
+            );
+        }
+
         chartOptions.plugins ??= {};
         chartOptions.plugins.legend ??= {};
         chartOptions.plugins.legend.position = 'bottom';
@@ -1763,6 +1770,51 @@ OCA.Analytics.Visualization = {
             });
             OCA.Analytics.chartObject.update();
         }
+    },
+
+    createAggregationDataset: function (dataset, mode, sourceIndex, hidden = false) {
+        let lastValue = 0;
+        const data = dataset.data.map((currentValue) => {
+            const value = typeof currentValue === 'number' ? currentValue : parseFloat(currentValue.y);
+            if (isNaN(value)) {
+                return currentValue;
+            }
+            const aggregatedValue = mode === 'aggregate' ? value + lastValue : value - lastValue;
+            lastValue = mode === 'aggregate' ? aggregatedValue : value;
+            return typeof currentValue === 'number'
+                ? aggregatedValue
+                : {...currentValue, y: aggregatedValue};
+        });
+
+        return {
+            label: dataset.label + ' ' + t('analytics', mode === 'aggregate' ? 'Aggregation' : 'Disaggregation'),
+            backgroundColor: dataset.backgroundColor,
+            borderColor: dataset.borderColor,
+            borderDash: [5, 5],
+            type: 'line',
+            yAxisID: 'secondary',
+            data: data,
+            hidden: hidden,
+            analyticsFunction: mode,
+            analyticsFunctionSourceIndex: sourceIndex,
+        };
+    },
+
+    addSavedAggregationFunctions: function (datasets, selections) {
+        const functions = OCA.Analytics.ChartOptions._normalizeAggregationFunctions(selections);
+        functions.forEach((selection) => {
+            const source = datasets[selection.sourceIndex];
+            if (!source) {
+                return;
+            }
+            datasets.push(this.createAggregationDataset(
+                source,
+                selection.mode,
+                selection.sourceIndex,
+                selection.hidden === true
+            ));
+        });
+        return datasets;
     },
 
     formatDoughnutDataLabel: function (value, context, labelStyle = 'percentage') {

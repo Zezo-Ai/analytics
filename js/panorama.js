@@ -128,11 +128,6 @@ Object.assign(OCA.Analytics.Panorama = {
         document.getElementById('prevBtn').addEventListener('click', () => OCA.Analytics.Panorama.navigatePage('prev'));
         document.getElementById('nextBtn').addEventListener('click', () => OCA.Analytics.Panorama.navigatePage('next'));
 
-        document.getElementById('layoutModalClose').addEventListener('click', function () {
-            document.getElementById('layoutModal').style.display = 'none';
-            document.getElementById('layoutModalGrid').innerHTML = '';
-        });
-
         document.addEventListener('click', OCA.Analytics.Panorama.handleEditMenuDocumentClick);
 
     },
@@ -682,6 +677,10 @@ Object.assign(OCA.Analytics.Panorama = {
                     e.stopPropagation();
                 } else {
                     const modalId = menuItem.dataset.modal;
+                    if (modalId === 'modalReport') {
+                        OCA.Analytics.Panorama.openWidgetContentReportSelector(menu.dataset.itemId);
+                        return;
+                    }
                     const modal = document.getElementById(modalId);
                     // show the corresponding modal
                     if (modal) {
@@ -710,10 +709,6 @@ Object.assign(OCA.Analytics.Panorama = {
                                     document.getElementById('textInputContent').value = markdown
                                 },
                             })
-                        }
-                        if (modalId === 'modalReport') {
-                            OCA.Analytics.Panorama.buildWidgetContentReportSelector();
-                            OCA.Analytics.Panorama.highlightSelectedReport(modal.dataset.itemId);
                         }
                     }
                 }
@@ -789,9 +784,30 @@ Object.assign(OCA.Analytics.Panorama = {
         OCA.Analytics.Panorama.hideEditMenu();
     },
 
+    openWidgetContentReportSelector: function (itemId) {
+        OCA.Analytics.Notification.htmlDialogInitiate(
+            t('analytics', 'Choose a report'),
+            OCA.Analytics.Notification.dialogClose,
+            {showActions: false}
+        );
+
+        const dialogContainer = document.getElementById('analyticsDialogContainer');
+        dialogContainer.dataset.itemId = itemId;
+
+        const reportSelectorContainer = document.createElement('div');
+        reportSelectorContainer.id = 'reportSelectorContainer';
+        OCA.Analytics.Notification.htmlDialogUpdate(reportSelectorContainer, '');
+
+        OCA.Analytics.Panorama.buildWidgetContentReportSelector();
+        OCA.Analytics.Panorama.highlightSelectedReport(itemId);
+    },
+
     buildWidgetContentReportSelector: function () {
         // Populate report selection menu with all available reports
-        let reportSelectorContainer = document.getElementById('reportSelectorContainer');
+        const reportSelectorContainer = document.getElementById('reportSelectorContainer');
+        if (!reportSelectorContainer) {
+            return;
+        }
         reportSelectorContainer.innerText = '';
         let reportMap = new Map();
         let rootReports = [];
@@ -860,9 +876,9 @@ Object.assign(OCA.Analytics.Panorama = {
 
         if (report.type !== 0) {
             reportItem.addEventListener('click', (e) => {
-                let reportId = parseInt(e.target.getAttribute('reportId'));
+                const reportId = parseInt(e.currentTarget.getAttribute('reportId'));
 
-                let itemId = document.getElementById('modalReport').dataset.itemId;
+                const itemId = document.getElementById('analyticsDialogContainer').dataset.itemId;
                 let pageId = itemId.split('-')[0];
                 let reportIndex = itemId.split('-')[1];
                 let targetItem = document.getElementById(itemId);
@@ -882,7 +898,7 @@ Object.assign(OCA.Analytics.Panorama = {
                 OCA.Analytics.unsavedChanges = true;
                 OCA.Analytics.Filter.toggleSaveButtonDisplay();
 
-                document.getElementById('modalReport').style.display = 'none';
+                OCA.Analytics.Notification.dialogClose();
             });
         }
         return reportItem;
@@ -943,20 +959,30 @@ Object.assign(OCA.Analytics.Panorama = {
 
     buildLayoutSelector: function () {
         OCA.Analytics.Panorama.hideOptionMenu();
-        document.getElementById('layoutModal').style.display = 'block';
+
+        OCA.Analytics.Notification.htmlDialogInitiate(
+            t('analytics', 'Select layout'),
+            OCA.Analytics.Notification.dialogClose,
+            {showActions: false}
+        );
+
+        const dialogContainer = document.getElementById('analyticsDialogContainer');
+        dialogContainer.dataset.dialogType = 'layoutSelector';
+
+        const grid = document.createElement('div');
+        grid.id = 'panoramaLayoutGrid';
+        grid.className = 'panoramaLayoutGrid';
+        OCA.Analytics.Notification.htmlDialogUpdate(grid, '');
 
         const layouts = OCA.Analytics.Panorama.layouts;
-        const grid = document.getElementById('layoutModalGrid');
-        grid.innerHTML = ''; // Clear existing content
 
         layouts.forEach(layout => {
             // Create a cell for each layout
             let cell = document.createElement('div');
-            cell.className = 'layoutModalGridCell';
+            cell.className = 'panoramaLayoutGridCell';
             cell.id = layout.id;
             cell.addEventListener('click', (e) => {
-                grid.innerHTML = ''; // Clear existing content
-                document.getElementById('layoutModal').style.display = 'none';
+                OCA.Analytics.Panorama.removeLayoutSelctor();
                 let selectedLayout = OCA.Analytics.Panorama.layouts.find(x => parseInt(x.id) === parseInt(e.currentTarget.id));
                 let currentPage = OCA.Analytics.currentPage;
                 let page = OCA.Analytics.currentPanorama.pages[currentPage];
@@ -982,13 +1008,13 @@ Object.assign(OCA.Analytics.Panorama = {
 
             // Add the layout preview
             let preview = document.createElement('div');
-            preview.className = 'layoutModalGridPreview';
+            preview.className = 'panoramaLayoutGridPreview';
             preview.innerHTML = layout.layout;
             cell.appendChild(preview);
 
             // Add the layout name below the preview
             let name = document.createElement('div');
-            name.className = 'layoutModalName';
+            name.className = 'panoramaLayoutName';
             name.textContent = layout.name;
             cell.appendChild(name);
 
@@ -997,8 +1023,10 @@ Object.assign(OCA.Analytics.Panorama = {
     },
 
     removeLayoutSelctor: function () {
-        //document.getElementById('layoutSelector').remove();
-        document.getElementById('layoutModal').style.display = 'none';
+        const dialogContainer = document.getElementById('analyticsDialogContainer');
+        if (dialogContainer?.dataset.dialogType === 'layoutSelector') {
+            OCA.Analytics.Notification.dialogClose();
+        }
     },
 
     handleDeletePageButton: function () {

@@ -274,6 +274,7 @@ OCA.Analytics.Notification = {
         variant: 'simple',
         documentationUrl: null,
         leadingAction: null,
+        showActions: true,
     },
 
     closeExistingDialog: function () {
@@ -362,19 +363,24 @@ OCA.Analytics.Notification = {
             + '<div id="analyticsDialogContent">'
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
-            + '<div class="analyticsDialogButtonrow">'
             + (
-                dialogOptions.leadingAction
-                    ? '<a class="button analyticsSecondary analyticsDialogButtonLeading'
-                    + (dialogOptions.leadingAction.className ? ' ' + dialogOptions.leadingAction.className : '')
-                    + '" id="analyticsDialogBtnLeading">'
-                    + dialogOptions.leadingAction.label
-                    + '</a>'
+                dialogOptions.showActions
+                    ? '<div class="analyticsDialogButtonrow">'
+                    + (
+                        dialogOptions.leadingAction
+                            ? '<a class="button analyticsSecondary analyticsDialogButtonLeading'
+                            + (dialogOptions.leadingAction.className ? ' ' + dialogOptions.leadingAction.className : '')
+                            + '" id="analyticsDialogBtnLeading">'
+                            + dialogOptions.leadingAction.label
+                            + '</a>'
+                            : ''
+                    )
+                    + '<a class="button analyticsSecondary" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
+                    + '<a class="button analyticsPrimary" id="analyticsDialogBtnGo">' + t('analytics', 'OK') + '</a>'
+                    + '</div>'
                     : ''
             )
-            + '<a class="button analyticsSecondary" id="analyticsDialogBtnCancel">' + t('analytics', 'Cancel') + '</a>'
-            + '<a class="button analyticsPrimary" id="analyticsDialogBtnGo">' + t('analytics', 'OK') + '</a>'
-            + '</div></div>'
+            + '</div>'
         );
 
         const dialogContainer = document.getElementById('analyticsDialogContainer');
@@ -382,10 +388,12 @@ OCA.Analytics.Notification = {
         document.getElementById('analyticsDialogHeader').textContent = header;
 
         document.getElementById("analyticsDialogBtnClose").addEventListener("click", OCA.Analytics.Notification.dialogClose);
-        document.getElementById("analyticsDialogBtnCancel").addEventListener("click", OCA.Analytics.Notification.dialogClose);
-        document.getElementById("analyticsDialogBtnGo").addEventListener("click", callback);
+        if (dialogOptions.showActions) {
+            document.getElementById("analyticsDialogBtnCancel").addEventListener("click", OCA.Analytics.Notification.dialogClose);
+            document.getElementById("analyticsDialogBtnGo").addEventListener("click", callback);
+        }
 
-        if (dialogOptions.leadingAction) {
+        if (dialogOptions.showActions && dialogOptions.leadingAction) {
             document.getElementById('analyticsDialogBtnLeading').addEventListener('click', dialogOptions.leadingAction.onClick);
         }
     },
@@ -454,6 +462,7 @@ OCA.Analytics.Notification = {
         dialogOptions.documentationUrl = typeof dialogOptions.documentationUrl === 'string' && dialogOptions.documentationUrl !== ''
             ? dialogOptions.documentationUrl
             : null;
+        dialogOptions.showActions = dialogOptions.showActions !== false;
 
         if (!dialogOptions.leadingAction || typeof dialogOptions.leadingAction.onClick !== 'function') {
             dialogOptions.leadingAction = null;

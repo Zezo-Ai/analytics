@@ -3,9 +3,15 @@
 ## Unreleased
 ### Added
 - Allow thresholds to target calculated table columns.
+- Persist aggregation and disaggregation chart functions and show their secondary axis automatically.
+- Mark the Analysis menu when aggregation or disaggregation functions are active.
 
-## 6.8.2 - 2026-08-28
 ### Fixed
+- Keep the report menu open while using its hover-based second-level options.
+- Close the navigation settings popover when clicking outside it.
+- Use the standard Analytics dialog for choosing a panorama report.
+- Use the standard Analytics dialog for selecting a panorama layout while keeping all previews visible.
+- Leave more space between dialog headings and the close button.
 - Ask for confirmation before deleting the current panorama page.
 - Normalize primary and secondary button colors and action ordering across screens and dialogs.
 - Update the browser title when selecting a panorama.

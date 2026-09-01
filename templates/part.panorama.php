@@ -169,77 +169,50 @@
         border-radius: var(--border-radius-element, var(--border-radius-pill));
     }
 
-    /* Layout Selector */
-    .layoutModal {
-        position: fixed;
-        z-index: 10;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .layoutModalContent {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        border-radius: var(--analytics-surface-radius);
-        width: 60%;
-    }
-
-    .layoutModalGrid {
+    .panoramaLayoutGrid {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
+        width: 60vw;
+        max-width: calc(100vw - 104px);
     }
 
-    .layoutModalGridCell {
-        width: calc(25% - 20px); /* Adjust based on gap size */
+    .panoramaLayoutGridCell {
+        width: calc(25% - 20px);
         border: 1px solid #ddd;
         padding: 5px;
         box-sizing: border-box;
     }
 
-    .layoutModalGridCell:hover {
+    .panoramaLayoutGridCell:hover {
         cursor: pointer;
         background-color: var(--color-primary-light-hover);
     }
 
-    .layoutModalName {
+    .panoramaLayoutName {
         text-align: center;
         margin-top: 5px;
         font-size: 14px;
-        color: #333;
+        color: var(--color-text-maxcontrast);
     }
 
-    .layoutModalHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
+    .panoramaLayoutGridPreview {
+        height: 100px;
+        overflow: hidden;
     }
 
-    .layoutModalTitle {
-        font-size: 20px;
-        font-weight: bold;
+    .panoramaLayoutGridPreview .flex-container {
+        box-sizing: border-box;
+        padding: 0;
     }
 
-    .layoutModalGridPreview {
-        /* Additional styling for layout preview */
-        height: 100px; /* Set a fixed height for previews */
-        overflow: hidden; /* Hide overflow */
-    }
-
-    .layoutModalGridPreview .flex-item {
+    .panoramaLayoutGridPreview .flex-item {
         padding: 0;
         margin: 2px;
         border: 1px solid #888;
     }
 
-    .layoutModalGridPreview .panoramaSubHeaderRow {
+    .panoramaLayoutGridPreview .panoramaSubHeaderRow {
         display: none;
     }
 
@@ -266,13 +239,6 @@
 
     <!-- Modals for the edit menu -->
     <div>
-        <div id="modalReport" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Choose a report</h2>
-                <div id="reportSelectorContainer"></div>
-            </div>
-        </div>
         <div id="modalText" class="modal">
             <div class="modal-content" style="width: 700px; height: 500px; top: 30%; left: 40%;">
                 <span class="close">&times;</span>
@@ -303,19 +269,6 @@
     <div id="pageScrollContainer" class="pageScrollContainer">
         <span class="pageScroll" id="prevBtn"><</span>
         <span class="pageScroll" id="nextBtn">></span>
-    </div>
-
-    <!-- LayoutChooser -->
-    <div id="layoutModal" class="layoutModal" style="display:none;">
-        <div class="layoutModalContent">
-            <div class="layoutModalHeader">
-                <span class="layoutModalTitle">Select Layout</span>
-                <span id="layoutModalClose" class="close">&times;</span>
-            </div>
-            <div id="layoutModalGrid" class="layoutModalGrid">
-                <!-- Layout previews will be dynamically inserted here -->
-            </div>
-        </div>
     </div>
 
     <div class="pages" id="panoramaPages">

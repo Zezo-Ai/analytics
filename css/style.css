@@ -301,6 +301,91 @@ button, .button {
 
 #optionsMenu {
     top: 40px;
+    overflow: visible;
+}
+
+#optionsMenuMainReport > .report-menu-has-submenu {
+    position: relative;
+}
+
+#optionsMenuMainReport > .report-menu-has-submenu > button {
+    display: flex;
+    align-items: center;
+}
+
+.report-menu-submenu-arrow {
+    margin-left: auto;
+}
+
+#optionsMenu .report-menu-submenu {
+    position: absolute;
+    z-index: 10000;
+    top: -4px;
+    right: calc(100% + 4px);
+    display: none !important;
+    box-sizing: border-box;
+    min-width: 220px;
+    margin: 0;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--analytics-surface-radius);
+    background-color: var(--color-main-background);
+    box-shadow: 0 1px 10px var(--color-box-shadow);
+}
+
+#optionsMenu .report-menu-submenu::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 5px;
+    height: 100%;
+}
+
+#optionsMenuMainReport > .report-menu-has-submenu:hover > .report-menu-submenu,
+#optionsMenuMainReport > .report-menu-has-submenu.submenu-focused > .report-menu-submenu,
+#optionsMenuMainReport > .report-menu-has-submenu.submenu-open > .report-menu-submenu {
+    display: block !important;
+}
+
+#optionsMenuMainReport > .report-menu-has-submenu > button:disabled + .report-menu-submenu {
+    display: none !important;
+}
+
+#optionsMenu .report-menu-submenu > li {
+    display: block;
+    margin: 0;
+}
+
+#optionsMenu .report-menu-submenu > li > button,
+#optionsMenu .report-menu-submenu > li > .menuitem {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--border-radius-element);
+    background: none;
+    text-align: left;
+}
+
+#optionsMenu .report-menu-submenu > li > button:hover,
+#optionsMenu .report-menu-submenu > li > button:focus-visible,
+#optionsMenu .report-menu-submenu > li > .menuitem:hover,
+#optionsMenu .report-menu-submenu > li > .menuitem:focus-within {
+    background-color: var(--color-background-hover);
+}
+
+#optionsMenuSubRefresh label {
+    flex: 1;
+    cursor: pointer;
+}
+
+#optionsMenuSubTranslate select {
+    width: 100%;
 }
 
 .reportSubHeader,
@@ -1018,6 +1103,7 @@ div.dt-container .dt-paging .dt-paging-button {
 .analyticsDialogHeaderWrap {
     display: flex;
     flex-direction: column;
+    padding-right: 56px;
 }
 
 .analyticsDialogHeader {
@@ -1111,7 +1197,7 @@ div.dt-container .dt-paging .dt-paging-button {
 }
 
 .analyticsDialog--enhanced .analyticsDialogHeaderWrap {
-    padding: 28px 32px 20px;
+    padding: 28px 72px 20px 32px;
     border-bottom: 1px solid var(--color-border);
 }
 

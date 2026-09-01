@@ -87,6 +87,14 @@ OCA.Analytics.Filter = {
                 tableOptionsEl.classList.remove('report-option-active');
             }
         }
+
+        const aggregationFunctions = OCA.Analytics.ChartOptions.getGuiState(
+            OCA.Analytics.currentReportData.options.chartoptions
+        ).aggregationFunctions;
+        const analysisEl = document.getElementById('optionsMenuAnalysis');
+        if (analysisEl) {
+            analysisEl.classList.toggle('report-option-active', aggregationFunctions.length > 0);
+        }
     },
 
     /**
@@ -2106,7 +2114,8 @@ OCA.Analytics.Filter = {
         }
 
         const isDoughnut = chart.config.type === 'doughnut';
-        const itemCount = isDoughnut ? chart.data.labels.length : chart.data.datasets.length;
+        const datasets = isDoughnut ? [] : chart.data.datasets.filter(dataset => !dataset.analyticsFunction);
+        const itemCount = isDoughnut ? chart.data.labels.length : datasets.length;
         for (let index = 0; index < itemCount; index++) {
             if (dataOptions[index] === null || typeof dataOptions[index] !== 'object' || Array.isArray(dataOptions[index])) {
                 dataOptions[index] = {};
@@ -2116,6 +2125,23 @@ OCA.Analytics.Filter = {
                 ? !chart.getDataVisibility(index)
                 : !chart.isDatasetVisible(index);
             dataOptions[index].hidden = hidden;
+        }
+
+        if (!isDoughnut) {
+            const guiState = OCA.Analytics.ChartOptions.getGuiState(
+                OCA.Analytics.currentReportData.options.chartoptions
+            );
+            const functionVisibility = chart.data.datasets
+                .filter(dataset => dataset.analyticsFunction)
+                .map(dataset => ({
+                    mode: dataset.analyticsFunction,
+                    sourceIndex: dataset.analyticsFunctionSourceIndex,
+                    hidden: !chart.isDatasetVisible(chart.data.datasets.indexOf(dataset)),
+                }));
+            OCA.Analytics.currentReportData.options.chartoptions = OCA.Analytics.ChartOptions.setGuiState(
+                OCA.Analytics.currentReportData.options.chartoptions,
+                {...guiState, aggregationFunctions: functionVisibility}
+            );
         }
 
         return dataOptions;
@@ -2142,7 +2168,7 @@ OCA.Analytics.Filter = {
         if (chart) {
             itemCount = chart.config.type === 'doughnut'
                 ? chart.data.labels.length
-                : chart.data.datasets.length;
+                : chart.data.datasets.filter(dataset => !dataset.analyticsFunction).length;
         } else {
             const guiState = OCA.Analytics.ChartOptions.getGuiState(OCA.Analytics.currentReportData.options.chartoptions);
             itemCount = OCA.Analytics.Visualization?.getChartSeriesItems
