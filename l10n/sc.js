@@ -59,7 +59,6 @@ OC.L10N.register(
     "Options" : "Optziones",
     "Translate" : "Borta",
     "Edit" : "Modìfica",
-    "Back" : "In segus",
     "Do you like this app?" : "Ti praghet cust'aplicatzione?",
     "More information …" : "Àteras informatziones ... ",
     "Name" : "Nùmene",

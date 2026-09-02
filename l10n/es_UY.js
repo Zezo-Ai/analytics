@@ -37,7 +37,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "Translate" : "Traducir",
     "Edit" : "Editar",
-    "Back" : "Atrás",
     "Name" : "Nombre",
     "Display" : "Mostrar",
     "Export" : "Exportar",

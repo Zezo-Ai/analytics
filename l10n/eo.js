@@ -44,7 +44,6 @@ OC.L10N.register(
     "Password" : "Pasvorto",
     "Translate" : "Traduku",
     "Edit" : "Modifi",
-    "Back" : "Antaŭen",
     "Name" : "Nomo",
     "Display" : "Montrilo",
     "Export" : "Eksporti",

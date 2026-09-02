@@ -27,7 +27,6 @@ OC.L10N.register(
     "Password" : "Lozinka",
     "Translate" : "Prevedi",
     "Edit" : "Izmeni",
-    "Back" : "Nazad",
     "Name" : "Ime",
     "Display" : "Prikaz",
     "Update" : "Ažuriraj",

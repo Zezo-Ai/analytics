@@ -122,7 +122,6 @@ OC.L10N.register(
     "More Information …" : "Vairāk informācijas ...",
     "Translate" : "Tulkot",
     "Edit" : "Labot",
-    "Back" : "Atpakaļ",
     "Name" : "Nosaukums",
     "Variables" : "Vērtības",
     "Column" : "Kolonna",

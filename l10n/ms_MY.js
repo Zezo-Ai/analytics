@@ -51,7 +51,6 @@ OC.L10N.register(
     "No" : "No",
     "Password" : "Kata laluan",
     "Edit" : "Sunting",
-    "Back" : "Kembali",
     "Name" : "Nama",
     "Export" : "Eksport",
     "Update" : "Kemaskini",

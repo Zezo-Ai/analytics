@@ -39,7 +39,6 @@ OC.L10N.register(
     "Password" : "Ger-tremen",
     "Translate" : "Treiñ",
     "Edit" : "Embann",
-    "Back" : "Distro",
     "Name" : "Anv",
     "Update" : "Hizivaat",
     "Mode" : "Mod",

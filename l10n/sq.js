@@ -46,7 +46,6 @@ OC.L10N.register(
     "Password" : "Fjalëkalim",
     "Translate" : "Përkthe",
     "Edit" : "Përpuno",
-    "Back" : "Prapa",
     "Name" : "Emri",
     "Display" : "Ekran",
     "Export" : "Eksport",

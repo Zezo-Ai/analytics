@@ -39,7 +39,6 @@ OC.L10N.register(
     "Password" : "პაროლი",
     "Translate" : "გადათარგმნეთ",
     "Edit" : "შეცვლა",
-    "Back" : "უკან",
     "Name" : "სახელი",
     "Display" : "დისპლეი",
     "Export" : "ექსპორტი",

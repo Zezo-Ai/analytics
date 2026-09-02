@@ -65,7 +65,6 @@ OC.L10N.register(
     "Options" : "אפשרויות",
     "Translate" : "תרגום",
     "Edit" : "עריכה",
-    "Back" : "חזרה",
     "Name" : "שם",
     "Display" : "תצוגה",
     "Chart" : "תרשים",

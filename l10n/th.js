@@ -46,7 +46,6 @@ OC.L10N.register(
     "Options" : "ตัวเลือก",
     "Translate" : "แปลภาษา",
     "Edit" : "แก้ไข",
-    "Back" : "ย้อนกลับ",
     "Do you like this app?" : "คุณชอบแอพนี้หรือไม่?",
     "More information …" : "ข้อมูลเพิ่มเติม ...",
     "Name" : "ชื่อ",

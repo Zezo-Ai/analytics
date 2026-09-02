@@ -34,7 +34,6 @@ OC.L10N.register(
     "copy" : "kopie",
     "The password is wrong. Try again." : "Die wagwoord is verkeerd. Probeer weer.",
     "Password" : "Wagwoord",
-    "Back" : "Terug",
     "Name" : "Naam",
     "Export" : "Voer uit",
     "Update" : "Werk by",

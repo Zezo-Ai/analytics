@@ -25,7 +25,6 @@ OC.L10N.register(
     "Password" : "Facal-faire",
     "Translate" : "Eadar-theangaich",
     "Edit" : "Deasaich",
-    "Back" : "Air ais",
     "Name" : "Ainm",
     "Copy" : "Dèan lethbhreac",
     "Rename" : "Thoir ainm ùr air",

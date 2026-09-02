@@ -30,7 +30,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Şifrə yalnışdır. Yenidən cəhd edin.",
     "Password" : "Şifrə",
     "Edit" : "Dəyişiklik et",
-    "Back" : "Geri",
     "Name" : "Ad",
     "Display" : "Ekran",
     "Export" : "Çıxarış",

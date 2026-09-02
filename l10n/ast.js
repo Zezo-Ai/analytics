@@ -138,7 +138,6 @@ OC.L10N.register(
     "Translate" : "Traducir",
     "Auto refresh" : "Anovar automáticamente",
     "Edit" : "Editar",
-    "Back" : "Atrás",
     "Report was changed - Press here to save the current state" : "L'informe camudó. Primi equí pa guardar l'estáu actual",
     "Legend" : "Lleenda",
     "Do you like this app?" : "¿Préstate esta aplicación?",

@@ -29,7 +29,6 @@ OC.L10N.register(
     "Password" : "கடவுச்சொல்",
     "Translate" : "Translate",
     "Edit" : "தொகுக்க",
-    "Back" : "பின்னுக்கு",
     "Name" : "பெயர்",
     "Export" : "ஏற்றுமதி",
     "Update" : "இற்றைப்படுத்தல்",

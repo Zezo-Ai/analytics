@@ -30,7 +30,6 @@ OC.L10N.register(
     "Password" : "මුර පදය",
     "Translate" : "පරිවර්තනය",
     "Edit" : "සංස්කරණය",
-    "Back" : "ආපසු",
     "Name" : "නම",
     "Update" : "යාවත්කාල",
     "Description" : "විස්තරය",

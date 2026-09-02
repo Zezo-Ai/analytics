@@ -23,7 +23,6 @@ OC.L10N.register(
     "Password" : "Açarsöz",
     "Translate" : "Terjime et",
     "Edit" : "Redaktirläň",
-    "Back" : "Yzyna",
     "Name" : "Ady",
     "Update" : "Täzelemek",
     "Copy" : "Göçüriň",

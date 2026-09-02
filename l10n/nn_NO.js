@@ -51,7 +51,6 @@ OC.L10N.register(
     "Password" : "Passord",
     "More Information …" : "Meir informasjon…",
     "Edit" : "Rediger",
-    "Back" : "Tilbake",
     "More information …" : "Meir informasjon…",
     "Name" : "Namn",
     "Variables" : "Variablar",

@@ -29,7 +29,6 @@ OC.L10N.register(
     "Password" : "Cyfrinair",
     "Translate" : "Cyfieithu",
     "Edit" : "Golygu",
-    "Back" : "Nôl",
     "Name" : "Enw",
     "Export" : "Allforio",
     "Update" : "Diweddaru",

@@ -28,7 +28,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "কুটশব্দটি ভুল। আবার চেষ্টা করুন।",
     "Password" : "কূটশব্দ",
     "Edit" : "সম্পাদনা",
-    "Back" : "পেছনে যাও",
     "Name" : "নাম",
     "Display" : "প্রদর্শন কর",
     "Export" : "রপ্তানি",

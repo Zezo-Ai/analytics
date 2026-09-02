@@ -56,7 +56,6 @@ OC.L10N.register(
     "Options" : "Opțiuni",
     "Translate" : "Tradu",
     "Edit" : "Editează",
-    "Back" : "Înapoi",
     "Name" : "Nume",
     "Display" : "Display",
     "Export" : "Exportă",

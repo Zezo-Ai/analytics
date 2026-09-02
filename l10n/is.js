@@ -59,7 +59,6 @@ OC.L10N.register(
     "Options" : "Valkostir",
     "Translate" : "Þýða",
     "Edit" : "Breyta",
-    "Back" : "Til baka",
     "Name" : "Heiti",
     "Display" : "Birting",
     "Table" : "Tafla",
