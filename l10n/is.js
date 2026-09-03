@@ -52,6 +52,7 @@ OC.L10N.register(
     "Limit" : "Takmörk",
     "Tag" : "Merki",
     "Local" : "Staðvært",
+    "File" : "Skrá",
     "Announcements" : "Tilkynningar",
     "copy" : "afrita",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
