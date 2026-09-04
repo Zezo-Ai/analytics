@@ -53,6 +53,7 @@ OC.L10N.register(
     "Tag" : "Merki",
     "Local" : "Staðvært",
     "File" : "Skrá",
+    "Current time" : "Tími núna",
     "Announcements" : "Tilkynningar",
     "copy" : "afrita",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",

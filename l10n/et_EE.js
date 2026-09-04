@@ -35,7 +35,7 @@ OC.L10N.register(
     "Datasets cannot be added to favorites" : "Andmekogusid ei saa lisada lemmikute hulka",
     "Settings" : "Seadistused",
     "Data" : "Andmed",
-    "Automation" : "Automatsioon",
+    "Automation" : "Automatiseerimine",
     "The data load options could not be loaded" : "Andmehulga valikute laadimine ei õnnestunud",
     "Data maintenance is not possible for this type of report" : "Andmete haldus ei ole seda tüüpi aruande jaoks võimalik",
     "Failed to load data loads" : "Andmehulkade laadimine ei õnnestunud",

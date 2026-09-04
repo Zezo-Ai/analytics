@@ -243,6 +243,7 @@ OC.L10N.register(
     "Showing _START_ to _END_ of _TOTAL_ entries" : "Affichage des entrées _START_ à _END_ sur  _TOTAL_",
     "Showing 0 to 0 of 0 entries" : "Affichage de 0 à 0 sur 0 entrées",
     "Show all" : "Tout afficher",
+    "aggregate" : "agréger",
     "others" : "autres",
     "Analytics" : "Analytics",
     "You created a new report: {report}" : "Vous avez créé un nouveau rapport : {report}",
